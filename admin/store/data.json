@@ -1,0 +1,153 @@
+[
+    {
+        "poll_id": "111",
+        "poll_type": "sushant",
+        "start_date": "2020-07-06",
+        "start_time": "11:08:00.00",
+        "end_date": "2020-07-06",
+        "end_time": "11:09:00.00",
+        "result": {
+            "candidate": [
+                {
+                    "c_id": "201",
+                    "c_name": "Sushant Barje",
+                    "party": "BJP",
+                    "position": "Chairman",
+                    "count": "0"
+                },
+                {
+                    "c_id": "202",
+                    "c_name": "Supriya Barje",
+                    "party": "Congress",
+                    "position": "Prime Minister",
+                    "count": "0"
+                }
+            ]
+        }
+    },
+    {
+        "poll_id": "112",
+        "poll_type": "q21",
+        "start_date": "2020-07-06",
+        "start_time": "12:24:00.00",
+        "end_date": "2020-07-06",
+        "end_time": "12:25:00.00",
+        "result": {
+            "candidate": [
+                {
+                    "c_id": "201",
+                    "c_name": "Sushant Barje",
+                    "party": "BJP",
+                    "position": "Chairman",
+                    "count": "0"
+                },
+                {
+                    "c_id": "202",
+                    "c_name": "Supriya Barje",
+                    "party": "Congress",
+                    "position": "Prime Minister",
+                    "count": "0"
+                },
+                {
+                    "c_id": "204",
+                    "c_name": "Sahil Joshi",
+                    "party": "Congress",
+                    "position": "Chairman",
+                    "count": "0"
+                }
+            ]
+        }
+    },
+    {
+        "poll_id": "113",
+        "poll_type": "sushant",
+        "start_date": "2020-07-06",
+        "start_time": "22:05:00.00",
+        "end_date": "2020-07-06",
+        "end_time": "22:07:00.00",
+        "result": {
+            "candidate": [
+                {
+                    "c_id": "201",
+                    "c_name": "Sushant Barje",
+                    "party": "BJP",
+                    "position": "Chairman",
+                    "count": "0"
+                },
+                {
+                    "c_id": "202",
+                    "c_name": "Supriya Barje",
+                    "party": "Congress",
+                    "position": "Prime Minister",
+                    "count": "0"
+                }
+            ]
+        }
+    },
+    {
+        "poll_id": "114",
+        "poll_type": "sushant",
+        "start_date": "2020-07-07",
+        "start_time": "10:02:00.00",
+        "end_date": "2020-07-07",
+        "end_time": "10:03:00.00",
+        "result": {
+            "candidate": [
+                {
+                    "c_id": "201",
+                    "c_name": "Sushant Barje",
+                    "party": "BJP",
+                    "position": "Chairman",
+                    "count": "1"
+                },
+                {
+                    "c_id": "202",
+                    "c_name": "Supriya Barje",
+                    "party": "Congress",
+                    "position": "Prime Minister",
+                    "count": "0"
+                },
+                {
+                    "c_id": "204",
+                    "c_name": "Sahil Joshi",
+                    "party": "Congress",
+                    "position": "Chairman",
+                    "count": "0"
+                }
+            ]
+        }
+    },
+    {
+        "poll_id": "115",
+        "poll_type": "sushant",
+        "start_date": "2020-07-07",
+        "start_time": "10:07:00.00",
+        "end_date": "2020-07-07",
+        "end_time": "10:08:00.00",
+        "result": {
+            "candidate": [
+                {
+                    "c_id": "201",
+                    "c_name": "Sushant Barje",
+                    "party": "BJP",
+                    "position": "Chairman",
+                    "count": "1"
+                },
+                {
+                    "c_id": "202",
+                    "c_name": "Supriya Barje",
+                    "party": "Congress",
+                    "position": "Prime Minister",
+                    "count": "0"
+                },
+                {
+                    "c_id": "204",
+                    "c_name": "Sahil Joshi",
+                    "party": "Congress",
+                    "position": "Chairman",
+                    "count": "0"
+                }
+            ]
+        }
+    }
+]

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>	</title>
+</head>
+<body>
+		<span id="s"></span>
+		<input type="date" name="date" id="date">
+		<button type="button" onclick="myfun()">Check</button>
+
+	<script type="">
+		function myfun(){
+			var val = document.getElementById('date').value;
+			var s = new	Date(val);
+			var date = s.getDate();
+			var month = s.getMonth();
+			var year = s.getFullYear();
+			console.log(date+"/"+month+"/"+year);
+			 var days = Math.floor(s / (1000 * 60 * 60 * 24));
+			  var hours = Math.floor((s % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			  var minutes = Math.floor((s % (1000 * 60 * 60)) / (1000 * 60));
+			  var seconds = Math.floor((s % (1000 * 60)) / 1000);
+	  		document.getElementById("s").innerHTML = days + "d " + hours + "h "
+	  				+ minutes + "m " + seconds + "s ";
+		}
+
+
+	</script>
+</body>
+</html>
