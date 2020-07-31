@@ -22,11 +22,14 @@ function processLogin(){
 				console.log(res);
 				switch(res.error){
 						case 'empty':
+							$('#alert').css('visibility','visible');
 							$('.message').html('Please fill all Information');
+							
 							break;
 						case 'Invalid':
+							$('#alert').css('visibility','visible');
 							$('.message').empty();
-							$('.message').html('Invalid valid email or Password');
+							$('.message').html('Invalid valid Voter ID or Password');
 							break;
 						case 'none':
 							window.location = "";
@@ -41,10 +44,7 @@ function processLogin(){
 function processSignUp(){
 	$('#signup').submit(function(){
 		data = {};
-		$('#signup input').each(function(k,v){
-		if(!$(v).val().length) {
-        	return false;
-  		}			
+		$('#signup input').each(function(k,v){			
       		data[$(v).attr('name')] = $(v).val();
 		});
 		console.log(data); 
@@ -54,24 +54,32 @@ function processSignUp(){
 			data : data,
 			dataType : 'json',
 			success : function(res){
+				console.log(res.error)
 				switch(res.error){
 					case 'empty':
+						$('#alert').css('visibility','visible');
 						$('.message').html('Please fill all details');
 						break;
 					case 'server':
 						$('.message').html('Problem with Server');
+						$('#alert').css('visibility','visible');
 						break;
 					case 'SQL':
 						$('.message').html('Problem while submitting details. Please check while filling');
+						$('#alert').css('visibility','visible');
 						break;
 					case 'already':
 						$('.message').html('Voter ID already exists');
+						$('#alert').css('visibility','visible');
 						break;
 					case 'incorrect':
 						$('.message').html('Incorrect');
 						break;
 					case 'none':
 						$('.message').html('Registration Success. Please Log In');
+						$('#alert').css('visibility','visible');
+						$('#alert').removeAttr('class');
+						$('#alert').addClass('alert alert-success')
 						break;
 				}
 			}

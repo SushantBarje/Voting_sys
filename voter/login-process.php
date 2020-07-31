@@ -1,7 +1,7 @@
 	<?php 
 	session_start();
 	require "../connection.php";
-
+	$con = connect();
 	if($_SERVER["REQUEST_METHOD"] != "POST"){
 		echo "Error while submiting";
 	}else{

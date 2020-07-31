@@ -1,0 +1,71 @@
+#header2{
+    margin-top: 0;
+    padding: 20px 0;
+    border: none;
+    border-bottom: 2px solid rgb(48, 27, 133);
+    width: unset;
+    font-size: 25px;
+    margin: 0 !important;
+}
+
+#header3{
+    margin: 0;
+    font-size:20px;
+    text-align: center;
+    padding: 20px 0px;
+    font-size: 20px;
+    background: rgb(14, 3, 79);
+    color: white;
+    border-radius: 5px 5px 0px 0px;
+    border: 1px solid black;
+}
+
+#header3:nth-child(1){
+    padding: 10px;
+}
+
+.add-candidate{
+    background-color: rgb(221, 221, 221);
+    margin-top: 10px;
+    height: 380px;
+    width: auto;
+}
+
+#col1 .input-group{
+    margin: 16px 10px;
+
+}
+
+#col1 input[type="text"]{
+    font-size: 13px;
+    font-weight: 500;
+}
+
+#col1 select{
+    font-size: 15px;
+    padding: 0px;
+}
+
+#col1 label{
+    font-size: 14px;
+    font-weight: 700;
+}
+
+#col2{
+    margin-top:70px;
+}
+
+.btn-submit{
+    display: flex;
+    justify-content: center;
+    align-items:center;
+}
+
+.btn-submit .btn{
+    background-color: rgb(48, 27, 133);
+    color: white;
+}
+
+.input-group span{
+    font-weight: 700;
+}

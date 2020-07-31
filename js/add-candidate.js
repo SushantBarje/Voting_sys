@@ -24,19 +24,24 @@ function processAdd(){
 				console.log(res);
 				switch(res.error){
 					case 'server':
-						$('#message').html("SERVER ERROR");
+						$('#alert').css('visibility','visible');
+						$('.message').html("SERVER ERROR");
 						break;
 					case 'empty':
-						$("#message").html('Field is empty');
+						$('#alert').css('visibility','visible');
+						$(".message").html('Field is empty');
 						break;
 					case 'SQL':
-						$('#message').html('SERVER ERROR: SQL');
+						$('#alert').css('visibility','visible');
+						$('.message').html('SERVER ERROR: SQL');
 						break;
 					case 'insert':
-						$('#message').html('Data is Not Processed.Try Again');
+						$('#alert').css('visibility','visible');
+						$('.message').html('Data is Not Processed.Try Again');
 						break;
 					case 'none':
-						$('#message').html('Candidate Registration Success...');
+						$('#alert').css('visibility','visible');
+						$('.message').html('Candidate Registration Success...');
 						$('#no').remove();
 						var trow = "";
 						for(var i = 0; i < res.count; i++){

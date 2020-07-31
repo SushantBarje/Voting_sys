@@ -4,11 +4,24 @@ $(document).ready(function(){
 
 function processDelete(){
 
+	$('.target').on('click',function(){
+		var id = $(this).attr('id');
+		console.log(id)
+		$('#confirm-btn').attr('data-control',id);
+		var c = $('#confirm-btn').attr('data-control');
+		console.log(c);
+	});
+	
+
 	data = {};
 
-	$('#candidate_table').on('click','.remove-btn',function(){
+	$('#confirm-id').on('click',function(){
+		console.log('susahant');
+	})
 
-		data[$(this).attr('name')] = $(this).attr('id');
+	$('.delete').on('click',function(){
+		console.log('sushant')
+		data[$(this).attr('name')] = $(this).attr('data-control');
 		console.log(data);
 
 		$.ajax({

@@ -2,6 +2,7 @@
 	session_start();
 	
 	require "../connection.php";
+	$con = connect();
 	
 	if($_SERVER["REQUEST_METHOD"] != "POST"){
 		die(json_encode(array('error'=>'server')));
@@ -71,9 +72,8 @@
 							
 							if(!mysqli_affected_rows($con)){
 								validate('error','SQL');
-							}else if(mysqli_affected_rows($con)){
-								die(json_encode(array('error'=>'none')));
 							}
+							die(json_encode(array('error'=>'none')));
 						}
  					}
 				}

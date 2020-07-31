@@ -1,6 +1,6 @@
 <?php 
 	
-	include "../../connection.php";
+include "../../connection.php";
 
 class Node {
 
@@ -18,7 +18,6 @@ class Node {
       $a = func_get_args();
       $i = func_num_args();
       if (method_exists($this,$f='__construct'.$i)) {
- 
         call_user_func_array(array($this,$f),$a); 
       }
     }
@@ -47,9 +46,6 @@ class Node {
 		}else{
 			if($result->num_rows > 0){
 				$row = $result->fetch_assoc()['object'];
-			
-				echo unserialize($row);
-				
 				return unserialize($row);
 			}else{
 				echo "here";
@@ -105,8 +101,6 @@ class Node {
 
 		return $this;
 	}
-
-
 
 	function insertPoll(){
 
@@ -182,10 +176,10 @@ class Node {
 
 	function retriveCandidate($status){
 
-			/*
-					Retrive the Candidate with there status;
-					Return false if No Candidate is Selected;
-			*/
+		/*
+			Retrive the Candidate with there status;
+			Return false if No Candidate is Selected;
+		*/
 
 		$con = connect();
 		$obj = array();

@@ -39,5 +39,4 @@
 			die(json_encode(array('error' => 'no_record_start')));
 		}
 	}
-
  ?>

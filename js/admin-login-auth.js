@@ -20,9 +20,10 @@ function processLogin(){
 				console.log(res);
 				switch(res.error){
 					case 'empty':
-						$('.message').html('Please fill all Information');
+						$('#alert .message').html('Please fill all Information');
 						break;
 					case 'Invalid':
+						$('#alert').css('visibility','visible');
 						$('.message').empty();
 						$('.message').html('Invalid valid ID or Password');
 						break;

@@ -1,0 +1,21 @@
+.container-fluid .header ul li:nth-child(6){
+    width: auto;
+}
+
+.container-fluid .header ul li:nth-child(6) a{
+    position: absolute;
+    right:90px;
+}
+
+#header2{
+    margin-top: 0;
+    padding: 20px 0;
+    border: none;
+    border-bottom: 2px solid rgb(48, 27, 133);
+    width: unset;
+    font-size: 25px;
+    margin: 0 !important;
+}
+
+
+
