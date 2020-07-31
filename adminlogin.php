@@ -9,15 +9,18 @@
 <html>
 <head>	
 	<title></title>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxy/1.6.1/scripts/jquery.ajaxy.min.js"></script>
- 	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-ajaxy/1.6.1/scripts/jquery.ajaxy.js"></script>
- 	<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script type="text/javascript" src="js/jquery.min.js"></script>
 	<script type="text/javascript" src="js/admin-login-auth.js"></script>
-
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="css/css/layout.css">
+	<link rel="stylesheet" href="css/css/admin/adminlogin.css">
 </head>
 <body>
-	<div class="container">
+	<div class="container-fluid">
 		<div class="header">
 			<h2>Voting System</h2>
 			<div class="navbar">
@@ -32,23 +35,27 @@
 				</ul>
 			</div>
 		</div>
-		<span class="message"></span>
+		<div class="alert alert-danger hidden" id="alert" style="visibility:hidden">
+      		<span class="message"></span>
+      		<button type="button" class="close" onclick="$('.alert').css('visibility','hidden');">&times;</button>
+    	</div>
 		<div class="login-form">
+			<h2>Admin Log In</h2>
 			<form id="admin-login" method="post">
-				<div class="form-group">
+				<div class="form-group col-sm-12">
 					<label for="admin_email">Email:</label>
 					<div class="form-input">
-						<input type="email" name="admin_email" placeholder="Enter Email">
+						<input type="email" class="form-control shadow-none" name="admin_email" placeholder="Enter Email">
 					</div>
 				</div>
-				<div class="form-group">
+				<div class="form-group col-sm-12">
 					<label for="admin_password">Password:</label>
 					<div class="form-input">
-						<input type="password" name="admin_password" placeholder="Enter Password">
+						<input type="password" class="form-control shadow-none" name="admin_password" placeholder="Enter Password">
 					</div>
 				</div>
 				<div class="admin-login-btn">
-					<button type="submit" name="admin-login-submit" id="admin-login-submit">Submit</button>
+					<button type="submit" class="btn btn-primary shadow-none" name="admin-login-submit" id="admin-login-submit">Submit</button>
 				</div>
 			</form>
 		</div>
