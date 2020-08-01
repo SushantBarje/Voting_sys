@@ -24,6 +24,8 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+	
+	
 	<link rel="stylesheet" href="css/css/layout.css">
 	<link rel="stylesheet" href="css/css/admin/poll.css">
  </head>
@@ -50,11 +52,11 @@
 		<span><h2 id="demo"></h2></span>
 		<span><h2 id="demo2"></h2></span>
 		<div class="row">
-			<div class="col-sm-1"></div>
-			<div class="col-sm-10">
+			<div class="col-sm-0 ml-5"></div>
+			<div class="col-sm-11">
 				<h2 id="header2">Start Poll</h2>
 			</div>
-			<div class="col-sm-1"></div>
+			<div class="col-sm-0"></div>
 		</div>
 		<div class="row">
 			<div class="col-sm-2"></div>
@@ -68,125 +70,139 @@
 		</div>
 		<div class="main">
 			<div class="row">
-				<div class="col-sm-3"></div>
-				<div class="col-sm-5">
+				<div class="col-sm-2"></div>
+				<div class="col-sm-8">
 					<form id="form-poll">
-						<div class="form-group">
-							<label for="poll-type">Poll Type</label>
-							<input type="text" class="form-control shadow-none" name="poll_type" id="poll-type" class="form-ele start_date">
-						</div>
-						<div class="form-row">
-							<div class="form-group col-md-6">
-								<label for="start-date">Start Date</label>
-								<input type="date" class="form-control shadow-none" name="start" id="start-date" class="form-ele">
-							</div>
-							<div class="form-group col-md-6">
-							<label for=stime>Start Time</label>
-								<input type="time" class="form-control shadow-none" name="stime" id="start-time" class="form-ele">
+						<div class="form-group row">
+							<label for="poll-type" class="col-xs-2">Poll Type</label>
+							<div class="col-xs-10 ml-3">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+								<input type="text" class="form-control shadow-none left-border-none" name="poll_type" id="poll-type" class="form-ele start_date">
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-md-6">
-								<label for="end">End Date</label>
-								<input type="date" class="form-control shadow-none" name="end" id="end-date" class="form-ele">
+							<div class="form-group row">
+								<label for="start-date" class="col-xs-2 col-form-label ">Start Date</label>
+								<div class="col-xs-10 ml-3">
+									<input type="date" class="form-control shadow-none" name="start" id="start-date" class="form-ele">
+								</div>
 							</div>
-							<div class="form-group col-md-6">
-								<label for=etime>End Time</label>
-								<input type="time" class="form-control shadow-none" name="etime" id="end-time" class="form-ele">
+							<div class="form-group row">
+								<label for=stime class="col-xs-2 col-form-label ml-5">Start Time</label>
+								<div class="col-xs-10 ml-3">
+									<input type="time" class="form-control shadow-none" name="stime" id="start-time" class="form-ele">
+								</div>
 							</div>
 						</div>
-						
+						<div class="form-row">
+							<div class="form-group row">
+								<label for="end" class="col-xs-2 col-form-label ml-1">End Date</label>
+								<div class="col-xs-10 ml-3">
+									<input type="date" class="form-control shadow-none" name="end" id="end-date" class="form-ele">
+								</div>
+							</div>
+							<div class="form-group row">
+								<label for="etime" class="col-xs-2 col-form-label ml-5">End Time</label>
+								<div class="col-xs-10 ml-4">
+									<input type="time" class="form-control shadow-none" name="etime" id="end-time" class="form-ele">
+								</div>
+							</div>
+						</div>
 						<div class="form-group">
-							<table class="candidate-table" border="1" class="form-ele">
-								<thead>
-									<th>Select Candidate</th>
-									<th>Candidate ID</th>
-									<th>Candidate Name</th>
-									<th>Position Name</th>
-									<th>Party Name</th>
-								</thead>			
-								<tbody>
-									<?php 
-										$sql = "SELECT * FROM candidate";
+							<div class="table-responsive">
+								<table class=" candidate-table table table-bordered table-hover table-sm" border="1" class="form-ele">
+									<thead>
+										<th>Select Candidate</th>
+										<th>Candidate ID</th>
+										<th>Candidate Name</th>
+										<th>Position Name</th>
+										<th>Party Name</th>
+									</thead>			
+									<tbody>
+										<?php 
+											$sql = "SELECT * FROM candidate";
 
-										$result = mysqli_query($con,$sql);
-										if(mysqli_num_rows($result) > 0){
-											while($row = mysqli_fetch_assoc($result)){
-												?><tr>
-													<td>
+											$result = mysqli_query($con,$sql);
+											if(mysqli_num_rows($result) > 0){
+												while($row = mysqli_fetch_assoc($result)){
+													?><tr>
+														<td>
 														<label for="candidate"></label>
 														<input type="checkbox" name="candidate[]" class="candidate-select" <?php echo "id=".$row['candidate_id'] ?> value=<?php echo $row['candidate_id']; ?>></td>
-													<td><?php echo $row['candidate_id'] ?></td>
-													<td><?php echo $row['candidate_name'] ?></td>
-													<td><?php echo $row['position'] ?></td>
-													<td><?php echo $row['party_name'] ?></td>
-												</tr>
-											<?php }
-										}
-										$result->free();
-									?>
-								</tbody>			
-							</table>
-							<button type="submit" id="startpoll">Start Poll</button>
+														<td><?php echo $row['candidate_id'] ?></td>
+														<td><?php echo $row['candidate_name'] ?></td>
+														<td><?php echo $row['position'] ?></td>
+														<td><?php echo $row['party_name'] ?></td>
+													</tr>
+												<?php }
+											}
+											$result->free();
+										?>
+									</tbody>			
+								</table>
+							</div>
+							<button class="btn btn-primary" type="submit" id="startpoll">Start Poll</button>
 						</div>
 					</form>
 				</div>
-				<div class="col-sm-3"></div>
+				<div class="col-sm-2"></div>
 			</div>
 			<div class="row">
 				<div class="col-sm-1"></div>
 				<div class="col-sm-10">
-					<table border="1" id="myTable">
-						<thead>
-							<th>Poll Id</th>
-							<th>Poll Type</th>
-							<th>Candidates</th>
-							<th>Start Date</th>
-							<th>Start Time</th>
-							<th>End Date</th>
-							<th>End Time</th>
-							<th>Status</th>
-							<th>Action</th>
-						</thead>
-						<tbody id="poll-queue">
-							<?php 
+					<div class="table-responsive">
+						<table class="table table-bordered table-hover table-sm" border="1" id="myTable">
+							<thead>
+								<th>Poll Id</th>
+								<th>Poll Type</th>
+								<th>Candidates</th>
+								<th>Start Date</th>
+								<th>Start Time</th>
+								<th>End Date</th>
+								<th>End Time</th>
+								<th>Status</th>
+								<th>Action</th>
+							</thead>
+							<tbody id="poll-queue">
+								<?php 
 
-								$sql = "SELECT * FROM poll";
+									$sql = "SELECT * FROM poll";
 
-								$result = mysqli_query($con,$sql);
-								if(!(mysqli_num_rows($result) > 0))
-								{	
-									echo "<tr><td colspan='9'>NO POLL</td></tr>";
-								}else{
-									while($row = mysqli_fetch_assoc($result)){
-										echo "<tr>
-											<td id='data-id'>".$row['id']."</td>
-											<td>".$row['poll_type']."</td>
-											<td>NOt SELECTED</td>
-											<td>".$row['start_date']."</td>
-											<td>".$row['start_time']."</td>
-											<td>".$row['end_date']."</td>
-											<td>".$row['end_time']."</td>";
-										if($row['status'] == 0){
-											echo "<td id='status'>Not Active</td>";
-											echo '<td><button type="button" class="btn-remove" id="'.$row['id'].'">Remove</button></td>';
-										}
-										if($row['status'] == 1){
-											echo "<td id='status'>Active</td>";
-											echo '<td><button type="button" class="btn-remove" id="'.$row['id'].'">Remove</button></td>';
-										}
-										if($row['status'] == 2){
-											echo "<td id='status'>Poll Expired</td>";
-											echo "<td><a href='poll_result".$row['id']."'><button type='button' id=".$row['id']." class='result-btn'>Result</button></a></td>";
-											echo '<td><button type="button" class="btn-remove" id="'.$row['id'].'">Remove</button></td>
-										</tr>';
+									$result = mysqli_query($con,$sql);
+									if(!(mysqli_num_rows($result) > 0))
+									{	
+										echo "<tr><td colspan='9'>NO POLL</td></tr>";
+									}else{
+										while($row = mysqli_fetch_assoc($result)){
+											echo "<tr>
+												<td id='data-id'>".$row['id']."</td>
+												<td>".$row['poll_type']."</td>
+												<td>NOt SELECTED</td>
+												<td>".$row['start_date']."</td>
+												<td>".$row['start_time']."</td>
+												<td>".$row['end_date']."</td>
+												<td>".$row['end_time']."</td>";
+											if($row['status'] == 0){
+												echo "<td id='status'>Not Active</td>";
+												echo '<td><button type="button" class="btn-remove btn btn-danger" id="'.$row['id'].'">Remove</button></td>';
+											}
+											if($row['status'] == 1){
+												echo "<td id='status'>Active</td>";
+												echo '<td><button type="button" class="btn-remove btn btn-danger" id="'.$row['id'].'">Remove</button></td>';
+											}
+											if($row['status'] == 2){
+												echo "<td id='status'>Poll Expired</td>";
+												echo "<td><a href='poll_result".$row['id']."'><button type='button' id=".$row['id']." class='result-btn btn btn-success'>Result</button></a></td>";
+												echo '<td><button type="button" class="btn-remove btn btn-danger" id="'.$row['id'].'">Remove</button></td>
+											</tr>';
+											}
 										}
 									}
-								}
-								mysqli_close($con);
-							?>
-						</tbody>
-					</table>
+									mysqli_close($con);
+								?>
+							</tbody>
+						</table>
+					</div>
 				</div>
 				<div class="col-sm-1"></div>
 			</div>

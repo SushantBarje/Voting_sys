@@ -22,6 +22,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="css/css/layout.css">
+	<link rel="stylesheet" href="css/css/admin/managevoter.css">
  </head>
  <body>
  	<div class="container-fluid">
@@ -45,37 +46,50 @@
 			
 		</div>
 		<div class="main">
-			<h2>Manage Voter</h2>
-			<table id="voter-table" border="1">
-				<thead>
-					<th>Voter ID</th>
-					<th>Full Name</th>
-					<th>Voter ID</th>
-					<th>Gender</th>
-					<th>Email</th>
-					<th>Contact No.</th>
-				</thead>
-				<tbody>	
-					<?php 	
-						$sql = "SELECT * FROM voter_reg";
+			<div class="row">
+				<div class="col-sm-0 ml-5"></div>
+					<div class="col-sm-11">
+						<h2 id="header2">Manage Voter</h2>
+					</div>
+				<div class="col-sm-0"></div>
+			</div>
+			<div class="row mt-4">
+				<div class="col-sm-1"></div>
+				<div class="col-sm-10">
+					<table class="table table-hover table-bordered table-sm	" id="voter-table" border="1">
+						<thead>
+							<th>Voter ID</th>
+							<th>Full Name</th>
+							<th>Voter ID</th>
+							<th>Gender</th>
+							<th>Email</th>
+							<th>Contact No.</th>
+						</thead>
+						<tbody>	
+							<?php 	
+								$sql = "SELECT * FROM voter_reg";
 
-						$result = mysqli_query($con,$sql);
+								$result = mysqli_query($con,$sql);
 
-						if(mysqli_num_rows($result) > 0){
-							while($row = mysqli_fetch_assoc($result)){
-								echo "<tr>
-										<td>".$row['id']."</td>
-										<td>".$row['fname']."</td>
-										<td>".$row['voter_id']."</td>
-										<td>".$row['gender']."</td>
-										<td>".$row['email']."</td>
-										<td>".$row['contact']."</td>
-									</tr>";
-							}
-						}
-					 ?>
-				</tbody>
-			</table>
+								if(mysqli_num_rows($result) > 0){
+									while($row = mysqli_fetch_assoc($result)){
+									echo "<tr>
+											<td>".$row['id']."</td>
+											<td>".$row['fname']."</td>
+											<td>".$row['voter_id']."</td>
+											<td>".$row['gender']."</td>
+											<td>".$row['email']."</td>
+											<td>".$row['contact']."</td>
+										</tr>";
+									}
+								}
+							?>
+						</tbody>
+					</table>
+				</div>
+				<div class="col-sm-1"></div>
+			</div>
+			
 		</div>
  	</div>
  </body>

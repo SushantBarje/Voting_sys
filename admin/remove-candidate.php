@@ -12,7 +12,7 @@
 		}
 
 		$id = $_POST['remove_c'];
-
+	
 		if(empty($id)){
 			die(json_encode(array('error'=>'empty')));
 		}else{
@@ -44,7 +44,7 @@
 					while($row = mysqli_fetch_assoc($result)){
 						$arr[] = $row;
 					}
-					
+
 					die(json_encode($arr));
 				}else{
 					die(json_encode(array('error'=>'no_c')));

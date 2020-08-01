@@ -123,6 +123,10 @@
 				</div>
 			</div>
 			<div class="col-sm-7 ml-5" id="col2">
+				<div class="alert alert-danger hidden mt-2" id="alert2" style="visibility:hidden">
+					<span class="message2"></span>
+					<button type="button" class="close" onclick="$('.alert').css('visibility','hidden');">&times;</button>
+				</div>
 				<h2 id="header3">Candidates</h2>
 				<table border=1 id="candidate_table" class="table table-hover table-bordered table-sm">
 					<thead>
@@ -145,7 +149,7 @@
 									<td><?php echo $row['candidate_name']; ?></td>
 									<td><?php echo $row['party_name'] ?></td>
 									<td><?php echo $row['position'] ?></td>
-									<td><button type="button" id=<?php echo $row['candidate_id']?> class="target btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">Remove</button></td>
+									<td><button type="button" data-control=<?php echo $row['candidate_id']?> id="target" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">Remove</button></td>
 									
 								</tr>
 							<?php }
@@ -159,7 +163,7 @@
 			</div>
 		</div>
  	</div>
-	<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -173,7 +177,7 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-					<button type="submit"  id="confirm-btn" name="remove_c" class=".delete btn btn-danger">Yes</button>
+					<button type="submit" id="confirm-btn" name="remove_c" class="btn btn-danger" data-dismiss="modal">Yes</button>
 				</div>
 			</div>
 		</div>

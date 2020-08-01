@@ -58,22 +58,33 @@ function processSignUp(){
 				switch(res.error){
 					case 'empty':
 						$('#alert').css('visibility','visible');
+						$('#alert').removeAttr('class');
+						$('#alert').addClass('alert alert-danger');
 						$('.message').html('Please fill all details');
 						break;
 					case 'server':
 						$('.message').html('Problem with Server');
+						('#alert').removeAttr('class');
+						$('#alert').addClass('alert alert-danger');
 						$('#alert').css('visibility','visible');
 						break;
 					case 'SQL':
 						$('.message').html('Problem while submitting details. Please check while filling');
+						$('#alert').removeAttr('class');
+						$('#alert').addClass('alert alert-danger');
 						$('#alert').css('visibility','visible');
 						break;
 					case 'already':
 						$('.message').html('Voter ID already exists');
+						$('#alert').removeAttr('class');
+						$('#alert').addClass('alert alert-danger');
 						$('#alert').css('visibility','visible');
 						break;
 					case 'incorrect':
 						$('.message').html('Incorrect');
+						$('#alert').removeAttr('class');
+						$('#alert').addClass('alert alert-danger');
+						$('#alert').css('visibility','visible');
 						break;
 					case 'none':
 						$('.message').html('Registration Success. Please Log In');

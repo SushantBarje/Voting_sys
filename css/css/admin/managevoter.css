@@ -8,3 +8,6 @@
     margin: 0 !important;
 }
 
+.table tbody tr td{
+    font-size: 14px;
+}
