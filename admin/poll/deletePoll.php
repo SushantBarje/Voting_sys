@@ -18,6 +18,8 @@
 			die(json_encode(array('error' => 'SQL')));
 		}
 		else{
+			$o = new Node();
+			$r = $o->retirvePoll();
 			die(json_encode(array('error'=>'none')));
 		}
 	}

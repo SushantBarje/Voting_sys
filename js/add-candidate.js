@@ -15,13 +15,12 @@ function processAdd(){
 		data[$('#add-cd select').attr('name')] = $('#add-cd select').val();
 	
 		$.ajax({
-			url: 'admin/add-candidate.php',
+			url: 'admin/candidates/addCandidate.php',
 			type: 'post',
 			data: data,
 			dataType: 'json',
 			cache: false,
 			success: function(res){
-				console.log(res);
 				switch(res.error){
 					case 'server':
 						$('#alert').css('visibility','visible');
@@ -59,14 +58,10 @@ function processAdd(){
 						$('#alert').addClass('alert alert-success');
 						$('.message').html('Candidate Registration Success...');
 						$('#no').remove();
-						var trow = "";
-						for(var i = 0; i < res.count; i++){
-							trow = "<tr><td>"+res.id+"<td>"+res.vot_id+"</td><td>"+res.name+"</td><td>"+res.p_name+"</td><td>"+res.position+"</td><td><button type='button' data-control='"+res.id+"' name="+'remove_c'+"  id='target' class='btn btn-danger' data-toggle='modal' data-target='#exampleModalCenter'>Remove</button></td></tr>"
-						}
+						var trow = "<tr><td>"+res.id+"<td>"+res.vote_id+"</td><td>"+res.name+"</td><td>"+res.p_name+"</td><td>"+res.position+"</td><td><button type='button' data-control='"+res.id+"' name="+'remove_c'+"  id='target' class='btn btn-danger' data-toggle='modal' data-target='#exampleModalCenter'>Remove</button></td></tr>";
 						$('#tbody').append(trow);
-						$('#candidate_id').html('Candidate ID :'+res.last_id);
+						$('#candidate_id').html('Candidate ID :'+res.id);
 						break;
-
 				}
 			},
 			error: function(){

@@ -1,14 +1,15 @@
 <?php 
 
 	session_start();
-	include 'connection.php';
-	$con = connect();
 	if(!isset($_SESSION['email'])){
 		header('Location: index.php');
 	}else{
 		$email = $_SESSION['email'];
 	}
  ?>
+<?php
+	include 'admin/candidates/controller.php';
+?>
 
  <!DOCTYPE html>
  <html>
@@ -139,25 +140,26 @@
 					</thead>
 					<tbody id="tbody">
 						<?php  
-						$sql = "SELECT * FROM candidate;";
-						$result = mysqli_query($con,$sql);
-						if(mysqli_num_rows($result) > 0){
-							while($row = mysqli_fetch_assoc($result)){
-								?><tr>
-									<td><?php echo $row['candidate_id']; ?></td>
-									<td><?php echo $row['vote_id'] ?></td>
-									<td><?php echo $row['candidate_name']; ?></td>
-									<td><?php echo $row['party_name'] ?></td>
-									<td><?php echo $row['position'] ?></td>
-									<td><button type="button" data-control=<?php echo $row['candidate_id']?> id="target" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">Remove</button></td>
-									
-								</tr>
-							<?php }
-						}else{
-							?> <tr id="no">
-								<td colspan="6">No Candidates</td>
-							</tr>
-						<?php }?>
+							$node = new NodeC();
+							if($node->setCandidates() === false) die('No Candidates');
+							$candidates = $node->getCandidates();
+							foreach($candidates as $candidate){
+								$data = $node->retriveCandidate($candidate);
+								$id = $data->getCandidateId();
+								$vote_id = $data->getVoteId();
+								$name = $data->getName();
+								$party = $data->getParty();
+								$position = $data->getPosition();
+								echo '<tr>
+										<td>'.$id.'</td>
+										<td>'.$vote_id.'</td>
+										<td>'.$name.'</td>
+										<td>'.$party.'</td>
+										<td>'.$position.'</td>
+										<td><button type="button" data-control='.$id.' id="target" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">Remove</button></td>
+									<tr>';
+							}
+						?>
 					</tbody>
 				</table>
 			</div>

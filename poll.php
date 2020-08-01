@@ -23,9 +23,7 @@
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-	
-	
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>	
 	<link rel="stylesheet" href="css/css/layout.css">
 	<link rel="stylesheet" href="css/css/admin/poll.css">
  </head>
@@ -69,18 +67,17 @@
 			<div class="col-sm-2"></div>
 		</div>
 		<div class="main">
-			<div class="row">
-				<div class="col-sm-2"></div>
-				<div class="col-sm-8">
+			<div class="row ml-5">
+				<div class="col-sm-0"></div>
+				<div class="col-sm-5">
 					<form id="form-poll">
-						<div class="form-group row">
+						<div class="form-group row ml-2">
 							<label for="poll-type" class="col-xs-2">Poll Type</label>
 							<div class="col-xs-10 ml-3">
-							<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
 								<input type="text" class="form-control shadow-none left-border-none" name="poll_type" id="poll-type" class="form-ele start_date">
 							</div>
 						</div>
-						<div class="form-row">
+						<div class="form-row ml-3">
 							<div class="form-group row">
 								<label for="start-date" class="col-xs-2 col-form-label ">Start Date</label>
 								<div class="col-xs-10 ml-3">
@@ -94,7 +91,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="form-row">
+						<div class="form-row ml-3">
 							<div class="form-group row">
 								<label for="end" class="col-xs-2 col-form-label ml-1">End Date</label>
 								<div class="col-xs-10 ml-3">
@@ -108,7 +105,7 @@
 								</div>
 							</div>
 						</div>
-						<div class="form-group">
+						<div class="form-group ml-0">
 							<div class="table-responsive">
 								<table class=" candidate-table table table-bordered table-hover table-sm" border="1" class="form-ele">
 									<thead>
@@ -145,11 +142,7 @@
 						</div>
 					</form>
 				</div>
-				<div class="col-sm-2"></div>
-			</div>
-			<div class="row">
-				<div class="col-sm-1"></div>
-				<div class="col-sm-10">
+				<div class="col-sm-6">
 					<div class="table-responsive">
 						<table class="table table-bordered table-hover table-sm" border="1" id="myTable">
 							<thead>
@@ -162,6 +155,7 @@
 								<th>End Time</th>
 								<th>Status</th>
 								<th>Action</th>
+								<th>Result</th>
 							</thead>
 							<tbody id="poll-queue">
 								<?php 
@@ -177,24 +171,26 @@
 											echo "<tr>
 												<td id='data-id'>".$row['id']."</td>
 												<td>".$row['poll_type']."</td>
-												<td>NOt SELECTED</td>
+												<td>Not selected</td>
 												<td>".$row['start_date']."</td>
 												<td>".$row['start_time']."</td>
 												<td>".$row['end_date']."</td>
 												<td>".$row['end_time']."</td>";
 											if($row['status'] == 0){
 												echo "<td id='status'>Not Active</td>";
-												echo '<td><button type="button" class="btn-remove btn btn-danger" id="'.$row['id'].'">Remove</button></td>';
+												echo '<td><button type="button" class="btn-remove btn btn-danger btn-sm" id="'.$row['id'].'">Remove</button></td>';
+												echo "<td></td>";
 											}
 											if($row['status'] == 1){
 												echo "<td id='status'>Active</td>";
-												echo '<td><button type="button" class="btn-remove btn btn-danger" id="'.$row['id'].'">Remove</button></td>';
+												echo '<td><button type="button" class="btn-remove btn btn-danger btn-sm" id="'.$row['id'].'">Remove</button></td>';
+												echo "<td></td>";
 											}
 											if($row['status'] == 2){
 												echo "<td id='status'>Poll Expired</td>";
-												echo "<td><a href='poll_result".$row['id']."'><button type='button' id=".$row['id']." class='result-btn btn btn-success'>Result</button></a></td>";
-												echo '<td><button type="button" class="btn-remove btn btn-danger" id="'.$row['id'].'">Remove</button></td>
-											</tr>';
+												echo '<td><button type="button" class="btn-remove btn btn-danger btn-sm" id="'.$row['id'].'">Remove</button></td>';
+												echo "<td><a href='poll_result".$row['id']."'><button type='button' id=".$row['id']." class='result-btn btn btn-success btn-sm'>Result</button></a></td>
+												</tr>";
 											}
 										}
 									}
@@ -204,9 +200,7 @@
 						</table>
 					</div>
 				</div>
-				<div class="col-sm-1"></div>
 			</div>
-			
 		</div>
  	</div>	
  </body>
