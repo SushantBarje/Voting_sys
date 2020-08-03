@@ -4,14 +4,12 @@ $(document).ready(function(){
 });
 
 function processAdd(){
-
 	$('#add-cd').submit(function(){
 
 		data = {};
 		$('#add-cd input').each(function(){
 			data[$(this).attr('name')] = $(this).val();
 		});
-		
 		data[$('#add-cd select').attr('name')] = $('#add-cd select').val();
 	
 		$.ajax({
@@ -21,6 +19,7 @@ function processAdd(){
 			dataType: 'json',
 			cache: false,
 			success: function(res){
+				console.log(res.error);
 				switch(res.error){
 					case 'server':
 						$('#alert').css('visibility','visible');

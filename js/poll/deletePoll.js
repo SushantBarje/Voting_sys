@@ -19,7 +19,7 @@ function processDelete(){
 					console.log(res);
 					if(res.error == 'none'){
 						var trow = '';
-						for(var i = 0; i < res.length)
+						for(var i = 0; i < res.length;i++)
 						$('#poll-queue').html('<tr><td colspan="9">NO POLL</td></tr>');
 						clearInterval(x);
 					}

@@ -1,5 +1,4 @@
 <?php 
-
 	session_start();
 	if(!isset($_SESSION['email'])){
 		header('Location: index.php');
@@ -8,7 +7,14 @@
 	}
  ?>
 <?php
-	include 'admin/candidates/controller.php';
+	define('PROJECT_ROOT_PATH',__DIR__);
+	include_once 'admin/candidates/controller.php';
+	
+?>
+<?php
+
+
+
 ?>
 
  <!DOCTYPE html>
@@ -18,6 +24,7 @@
  	<script type="text/javascript" src="js/jquery.min.js"></script>
  	<script type="text/javascript" src="js/position.js"></script>
  	<script type="text/javascript" src="js/remove-candidate.js"></script>
+	<script type="text/javascript" src="js/add-candidate.js"></script>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
@@ -88,18 +95,15 @@
 							<span>:</span>
 							<div class="col-sm-6">
 								<select id="position_select" class="form-control input-select-sm"  name="c_position" form="add-cd">
-									<option>Not Selected</option>
 									<?php 
-										$sql = "SELECT * FROM position;";
-										$result = mysqli_query($con,$sql);
-
-										if(mysqli_num_rows($result) > 0){
-											while ($row = mysqli_fetch_assoc($result)) {
-												?>
-									<option <?php echo "value='".$row['pos']."'" ?>><?php echo $row['pos'] ?></option>
-											<?php }
-										}else{
-											echo "<option value=''>No Positions</option>";
+										$node1 = new NodeC();
+										if($node1->setPos() === false) die('no Position');
+										$positions = $node1->getPos();
+										foreach($positions as $position){
+											$data1 = $node1->retrivePosition($position);
+											$pos_id = $data1->getPosId();
+											$pos = $data1->getAddPosition();
+											echo '<option value='.$pos_id.'>'.$pos.'</option>';
 										}
 									?>
 								</select>
@@ -123,7 +127,8 @@
 					<span id="candidate_id"></span>
 				</div>
 			</div>
-			<div class="col-sm-7 ml-5" id="col2">
+			<div class="col-sm-1"></div>
+			<div class="col-sm-6 ml-5" id="col2">
 				<div class="alert alert-danger hidden mt-2" id="alert2" style="visibility:hidden">
 					<span class="message2"></span>
 					<button type="button" class="close" onclick="$('.alert').css('visibility','hidden');">&times;</button>
@@ -140,11 +145,11 @@
 					</thead>
 					<tbody id="tbody">
 						<?php  
-							$node = new NodeC();
-							if($node->setCandidates() === false) die('No Candidates');
-							$candidates = $node->getCandidates();
+							$node2 = new NodeC();
+							if($node2->setCandidates() === false) die('No Candidates');
+							$candidates = $node2->getCandidates();
 							foreach($candidates as $candidate){
-								$data = $node->retriveCandidate($candidate);
+								$data = $node2->retriveCandidate($candidate);
 								$id = $data->getCandidateId();
 								$vote_id = $data->getVoteId();
 								$name = $data->getName();
@@ -156,7 +161,7 @@
 										<td>'.$name.'</td>
 										<td>'.$party.'</td>
 										<td>'.$position.'</td>
-										<td><button type="button" data-control='.$id.' id="target" class="btn btn-danger" data-toggle="modal" data-target="#exampleModalCenter">Remove</button></td>
+										<td><button type="button" data-control='.$id.' id="target" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#exampleModalCenter">Remove</button></td>
 									<tr>';
 							}
 						?>
@@ -175,7 +180,7 @@
 					</button>
 				</div>
 				<div class="modal-body">
-					<h4>Are You Sure You Want to Remove <?php echo $row['candidate_name']?></h4>
+					<h4>Are You Sure You Want to Remove?</h4>
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>

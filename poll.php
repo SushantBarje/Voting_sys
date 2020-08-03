@@ -1,8 +1,7 @@
 <?php 
 
 	session_start();
-	require "connection.php";
-	$con = connect();
+
 	$pollFlag = 0;
 	if(!isset($_SESSION['email'])){
 		header('Location: index.php');
@@ -11,6 +10,11 @@
 	}
  ?>
 
+<?php
+	include_once 'admin/poll/main.php';
+	$con = connect();
+	$node = new Node();
+?>
  <!DOCTYPE html>
  <html>
  <head>

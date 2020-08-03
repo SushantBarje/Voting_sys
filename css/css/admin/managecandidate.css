@@ -4,7 +4,7 @@
     border: none;
     border-bottom: 2px solid rgb(48, 27, 133);
     width: unset;
-    font-size: 25px;
+    font-size: 20px;
     margin: 0 !important;
 }
 
@@ -12,18 +12,24 @@
     margin: 0;
     font-size:20px;
     text-align: center;
-    padding: 20px 0px;
-    font-size: 20px;
+    padding: 10px 0px;
+    font-size: 15px;
+    font-weight: 600;
     background: rgb(14, 3, 79);
     color: white;
     border-radius: 5px 5px 0px 0px;
     border: 1px solid black;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 #header3:nth-child(1){
     padding: 10px;
 }
 
+#row2{
+    font-size: 13px;
+    font-family: Arial, Helvetica, sans-serif;
+}
 .add-candidate{
     background-color: rgb(221, 221, 221);
     margin-top: 10px;
@@ -52,7 +58,7 @@
 }
 
 #col2{
-    margin-top:70px;
+    margin-top:10px;
 }
 
 .btn-submit{
@@ -64,6 +70,7 @@
 .btn-submit .btn{
     background-color: rgb(48, 27, 133);
     color: white;
+    
 }
 
 .input-group span{

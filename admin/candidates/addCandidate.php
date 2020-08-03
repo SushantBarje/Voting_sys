@@ -1,6 +1,6 @@
 <?php
     session_start();
-    require 'controller.php';
+    include_once 'controller.php';
     $con = connect();
 
     //
@@ -40,8 +40,8 @@
         }
 
         $n = new NodeC($v_id,$name,$pname,$position);
-        $last_id = mysqli_real_escape_string($con,$n->getCandidateId());
-        $r = $n->retriveCandidate($last_id);
+		$last_id = mysqli_real_escape_string($con,$n->getCandidateId());
+		$r = $n->retriveCandidate($last_id);
         die(json_encode(array('error'=>'none','id'=>$r->getCandidateId(),'vote_id'=>$r->getVoteId(),'name'=>$r->getName(),'p_name'=>$r->getParty(),'position'=>$r->getPosition())));
     }
 ?>

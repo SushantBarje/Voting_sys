@@ -1,7 +1,6 @@
 <?php
 
-require "../../connection.php";
-
+include_once 'define.php';
 class NodeC{
 
     private $candidate_id;
@@ -9,6 +8,9 @@ class NodeC{
     private $candidate_name;
     private $party_name;
     private $position;
+    private $addpos;
+    private $pos_id;
+    private $pos = array();
     private $canidates = array();
 
     function __construct() {  
@@ -20,7 +22,7 @@ class NodeC{
         }
       }
   
-  
+    /* Constructor for Managing Candidates*/
     function __construct4($id,$name,$party,$pos){
         $this->setVoteId($id);
         $this->setName($name);
@@ -31,22 +33,29 @@ class NodeC{
         }
     }
 
-    /* 
-        Method to Insert Candidate into database
-    */
-
+    /* Constructor for Managing Position */
+    function __construct1($addpos){
+        $this->setAddPosition($addpos);
+        if($this->managePosition() === false){
+            echo false;
+        }
+    }
+    /*
+        Return an array of error while performing opration.
+    */ 
     public function validate($e,$t){
         return array($e => $t);
     }
 
+    /* 
+        Method to UPDATE the Candidate Details if already Present.
+        Else insert the Candidate into Database.
+    */
     public function insertCandidate(){
-
         $con = connect();
-        
         if($con->connect_errno){
             return false;
         }
-
         $id = $this->vote_id;
         $name = $this->candidate_name;
         $party = $this->party_name;
@@ -55,11 +64,9 @@ class NodeC{
         if(!($stmt = $con->prepare($sql))){
             $this->validate('error','prepare1');
         }
-
         if(!$stmt->bind_param('s',$id)){
             $this->validate('error','bind1');
         }
-
         if(!$stmt->execute()){
             $this->validate('error','execute1');
         }
@@ -70,11 +77,9 @@ class NodeC{
             if(!($stmt = $con->prepare($sql))){
                 $this->validate('error','prepare2');
             }
-    
             if(!$stmt->bind_param('ssss',$name,$party,$position,$id)){
                 $this->validate('error','bind2');
             }
-    
             if(!$stmt->execute()){
                 $this->validate('error','execute2');
             }
@@ -86,13 +91,13 @@ class NodeC{
             }
             $obj = $con->real_escape_string(serialize($this));
             if(!$stmt->bind_param('sssss',$id,$name,$party,$position,$obj)){
+
                 $this->validate('error','bind2');
             }
     
             if(!$stmt->execute()){
                 $this->validate('error','execute2');
             }
-            
         }
         if($con->errno){
             return false;
@@ -103,52 +108,104 @@ class NodeC{
         return false;
     }
 
+    /* Retirve Candidate With Valid Candidate Id.*/
     public function retriveCandidate($c_id){
         $con = connect();
-        
-        $sql = "SELECT * FROM candidate where candidate_id = $c_id";
+        $c_id = mysqli_real_escape_string($con,$c_id);
+        $sql = "SELECT a.candidate_id,a.vote_id,a.candidate_name,a.party_name,b.pos FROM candidate as a JOIN position as b ON a.candidate_id = $c_id AND a.position = b.position_id";
         $result = $con->query($sql);
         $count = $result->num_rows;
         if($result->num_rows > 0){
             while($row = $result->fetch_assoc()){
-                $this->setCandidateid($row['candidate_id']);
+                $this->setCandidateId($row['candidate_id']);
                 $this->setVoteId($row['vote_id']);
                 $this->setName($row['candidate_name']);
                 $this->setParty($row['party_name']);
-                $this->setPosition($row['position']);
+                $this->setPosition($row['pos']);
             }
             return $this;
         }
     }
 
-    public function retriveCandidateall(){
+    /* Manages Position if already present Update it Else Insert into the Database.*/
+    public function managePosition(){
+
         $con = connect();
         if($con->connect_errno){
-            $this->validate('error','server');
+            validate('error','connect');
         }
-        $sql = "SELECT * FROM candidiate";
-        $result = $con->query($sql);
-        if($result->num_rows > 0){
-            $arr[] = array(
-                'id'=> $row['canidate_id'],
-                'vote_id' => $row['vote_id'],
-                'name' => $row['candidate_name'],
-                'party' => $row['party_name'],
-                'position' => $row['position'],
-                'status' => $row['status'],
-                'count' => $row['count'],
-            );
+        $pos = $this->addpos;
+        $sql = "SELECT * FROM position WHERE pos = ?";
+        if(!($stmt = $con->prepare($sql))){
+            $this->validate('error','prepare1');
+        }
+
+        if(!$stmt->bind_param('s',$pos)){
+            $this->validate('error','bind1');
+        }
+
+        if(!$stmt->execute()){
+            $this->validate('error','execute1');
+        }
+        $result = $stmt->get_result();
+        $id = $result->fetch_assoc['id'];
+        $stmt->close();
+        if($result->num_rows){
+            $sql = "UPDATE position SET pos = ? WHERE position_id = ?";
+            if(!($stmt = $con->prepare($sql))){
+                $this->validate('error','prepare2');
+            }
+    
+            if(!$stmt->bind_param('ss',$pos,$id)){
+                $this->validate('error','bind2');
+            }
+    
+            if(!$stmt->execute()){
+                $this->validate('error','execute2');
+            }
+            $stmt->close();
         }else{
-            $this->validate('error','no_records');
+            $sql = "INSERT INTO position(pos) VALUES(?)";
+            if(!($stmt = $con->prepare($sql))){
+                $this->validate('error','prepare2');
+            }
+            if(!$stmt->bind_param('s',$pos)){
+                $this->validate('error','bind2');
+            }
+    
+            if(!$stmt->execute()){
+                $this->validate('error','execute2');
+            } 
         }
         if($con->errno){
-            $this->validate('error','no');
+            return false;
         }else{
-            return $arr;
+            return true;
         }
         return false;
     }
-    
+
+    /* Retrive Position Based on Id*/
+    public function retrivePosition($pos_id){
+        $con = connect();
+        echo $pos_id;
+        if($con->connect_errno){
+            $this->validate('error','connect');
+        }else{
+            $pos_id = mysqli_real_escape_string($con,$pos_id);
+            $sql = "SELECT * FROM position WHERE position_id = $pos_id";
+            $result = $con->query($sql);
+            $count = $result->num_rows;
+            if($result->num_rows > 0){  
+                while($row = $result->fetch_assoc()){
+                    $this->setPosId($row['position_id']);
+                    $this->setAddPosition($row['pos']);
+                }
+                return $this;
+            }
+        }
+    }
+
     //Setter
 
     public function setCandidateId($v){
@@ -173,6 +230,9 @@ class NodeC{
 
     public function setCandidates(){
         $con = connect();
+        if($con->connect_errno){
+            $this->validate('error','connect');
+        }
         $sql = "SELECT candidate_id FROM candidate";
         $result = $con->query($sql);
         if($result->num_rows > 0){
@@ -183,6 +243,31 @@ class NodeC{
             return false;
         }
     }
+
+    public function setAddPosition($v){
+        $this->addpos = $v;
+    }
+
+    public function setPos(){
+        $con = connect();
+        if($con->connect_errno){
+            $this->validate('error','connect');
+        }
+        $sql = "SELECT * FROM position";
+        $result = $con->query($sql);
+        if($result->num_rows > 0){
+            while($row = $result->fetch_assoc()){
+                $this->pos[] = $row['position_id'];
+            }
+        }else{
+            return false;
+        }
+    }
+
+    public function setPosId($v){
+        $this->pos_id = $v;
+    }
+    
     //Getter
 
     public function getCandidateId(){
@@ -209,6 +294,17 @@ class NodeC{
         return $this->candidates;
     }
 
+    public function getAddPosition(){
+        return $this->addpos;
+    }
+
+    public function getPos(){
+        return $this->pos;
+    }
+
+    public function getPosId(){
+        return $this->pos_id;
+    }
 };
 
 ?>

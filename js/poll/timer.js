@@ -219,7 +219,7 @@ function stop(val,set){
 }
 
 function autoDelete(val,set){
-
+	console.log(val);
 	$.ajax({
 
 		url : "admin/poll/autoDelete.php",

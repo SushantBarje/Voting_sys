@@ -1,6 +1,6 @@
 <?php 
 	
-include "../../connection.php";
+include "define.php";
 
 class Node {
 
@@ -119,7 +119,6 @@ class Node {
 		}
 
 		$object = serialize($this);
-		echo $object;
 		$sql = "INSERT INTO poll (poll_type,start_date,start_time,end_date,end_time,object) VALUES(?,?,?,?,?,?);";
 		
 			if(!($stmt = mysqli_stmt_init($con))){

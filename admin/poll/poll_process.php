@@ -23,10 +23,10 @@
 		}
 
 		function test_input($data) {
-	  	$data = trim($data);
-	 	$data = stripslashes($data);
-	  	$data = htmlspecialchars($data);
-	  	return $data;
+			$data = trim($data);
+			$data = stripslashes($data);
+			$data = htmlspecialchars($data);
+			return $data;
 		}
 
 		function validDate($s,$e,$st,$et){
@@ -46,7 +46,6 @@
 				validate('error','same');
 			}	
 		}
-
 
 		if($isValidate == 1){
 			$poll_type = test_input($_POST['poll_type']);

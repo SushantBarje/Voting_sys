@@ -9,7 +9,6 @@
 
 		$data = $_GET['data'];
 		
-
 		$sql = "DELETE FROM poll where id = $data;UPDATE candidate SET status = 0 WHERE status = 1";
 		
 		$result = mysqli_multi_query($con,$sql);
