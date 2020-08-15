@@ -1,6 +1,6 @@
 <?php 
-	
-	require "../../connection.php";
+
+	include_once 'main2.php';
 	$con = connect();
 
 	if($_SERVER['REQUEST_METHOD'] != "GET"){
@@ -18,7 +18,7 @@
 		}
 		else{
 			$o = new Node();
-			$r = $o->retirvePoll();
+			$r = $o->retrivePoll($data);
 			die(json_encode(array('error'=>'none')));
 		}
 	}

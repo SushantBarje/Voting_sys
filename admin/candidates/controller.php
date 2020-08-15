@@ -12,6 +12,7 @@ class NodeC{
     private $pos_id;
     private $pos = array();
     private $canidates = array();
+    public $error = array();
 
     function __construct() {  
         // Allow multiple constructors with different number of arguments
@@ -62,41 +63,49 @@ class NodeC{
         $position = $this->position;
         $sql = "SELECT * FROM candidate WHERE vote_id = ?";
         if(!($stmt = $con->prepare($sql))){
-            $this->validate('error','prepare1');
+            $err = $this->validate('error','prepare1');
+            return $err;
         }
         if(!$stmt->bind_param('s',$id)){
-            $this->validate('error','bind1');
+            $err = $this->validate('error','bind1');
+            return $err;
         }
         if(!$stmt->execute()){
-            $this->validate('error','execute1');
+            $err = $this->validate('error','execute1');
+            return $err;
         }
         $result = $stmt->get_result();
         $stmt->close();
         if($result->num_rows){
             $sql = "UPDATE candidate SET candidate_name = ?, party_name = ?, position = ? WHERE vote_id = ?";
             if(!($stmt = $con->prepare($sql))){
-                $this->validate('error','prepare2');
+                $err = $this->validate('error','prepare2');
+                return $err;
             }
             if(!$stmt->bind_param('ssss',$name,$party,$position,$id)){
-                $this->validate('error','bind2');
+                $err = $this->validate('error','bind2');
+                return $err;
             }
             if(!$stmt->execute()){
-                $this->validate('error','execute2');
+                $err = $this->validate('error','execute2');
+                return $err;
             }
             $stmt->close();
         }else{
             $sql = "INSERT INTO candidate(vote_id,candidate_name,party_name,position,obj) VALUES(?,?,?,?,?)";
             if(!($stmt = $con->prepare($sql))){
-                $this->validate('error','prepare2');
+                $err = $this->validate('error','prepare2');
+                return $err;
             }
             $obj = $con->real_escape_string(serialize($this));
             if(!$stmt->bind_param('sssss',$id,$name,$party,$position,$obj)){
-
-                $this->validate('error','bind2');
+                $err = $this->validate('error','bind2');
+                return $err;
             }
     
             if(!$stmt->execute()){
-                $this->validate('error','execute2');
+                $err = $this->validate('error','execute2');
+                return $err;
             }
         }
         if($con->errno){
@@ -132,20 +141,20 @@ class NodeC{
 
         $con = connect();
         if($con->connect_errno){
-            validate('error','connect');
+            return $this->validate('error','connect');
         }
         $pos = $this->addpos;
         $sql = "SELECT * FROM position WHERE pos = ?";
         if(!($stmt = $con->prepare($sql))){
-            $this->validate('error','prepare1');
+            return $this->validate('error','prepare1');
         }
 
         if(!$stmt->bind_param('s',$pos)){
-            $this->validate('error','bind1');
+            return $this->validate('error','bind1');
         }
 
         if(!$stmt->execute()){
-            $this->validate('error','execute1');
+            return $this->validate('error','execute1');
         }
         $result = $stmt->get_result();
         $id = $result->fetch_assoc['id'];
@@ -153,28 +162,28 @@ class NodeC{
         if($result->num_rows){
             $sql = "UPDATE position SET pos = ? WHERE position_id = ?";
             if(!($stmt = $con->prepare($sql))){
-                $this->validate('error','prepare2');
+                return $this->validate('error','prepare2');
             }
     
             if(!$stmt->bind_param('ss',$pos,$id)){
-                $this->validate('error','bind2');
+                return $this->validate('error','bind2');
             }
     
             if(!$stmt->execute()){
-                $this->validate('error','execute2');
+                return $this->validate('error','execute2');
             }
             $stmt->close();
         }else{
             $sql = "INSERT INTO position(pos) VALUES(?)";
             if(!($stmt = $con->prepare($sql))){
-                $this->validate('error','prepare2');
+                return $this->validate('error','prepare2');
             }
             if(!$stmt->bind_param('s',$pos)){
-                $this->validate('error','bind2');
+                return $this->validate('error','bind2');
             }
     
             if(!$stmt->execute()){
-                $this->validate('error','execute2');
+                return $this->validate('error','execute2');
             } 
         }
         if($con->errno){
@@ -190,7 +199,7 @@ class NodeC{
         $con = connect();
         echo $pos_id;
         if($con->connect_errno){
-            $this->validate('error','connect');
+            return $this->validate('error','connect');
         }else{
             $pos_id = mysqli_real_escape_string($con,$pos_id);
             $sql = "SELECT * FROM position WHERE position_id = $pos_id";
@@ -231,7 +240,7 @@ class NodeC{
     public function setCandidates(){
         $con = connect();
         if($con->connect_errno){
-            $this->validate('error','connect');
+            return $this->validate('error','connect');
         }
         $sql = "SELECT candidate_id FROM candidate";
         $result = $con->query($sql);
@@ -251,7 +260,7 @@ class NodeC{
     public function setPos(){
         $con = connect();
         if($con->connect_errno){
-            $this->validate('error','connect');
+            return $this->validate('error','connect');
         }
         $sql = "SELECT * FROM position";
         $result = $con->query($sql);

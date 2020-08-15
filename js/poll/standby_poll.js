@@ -21,11 +21,10 @@ function processPoll(){
 			'end' : $('#end-date').val(),
 			'etime' : $('#end-time').val(),
 			'candidate' : arr,
- 		};
+		};
+		 
  		console.log(data);
- 		
  		$.ajax({
-
  			url : 'admin/poll/poll_process.php',
  			type : 'post',
  			data : data,
@@ -61,15 +60,14 @@ function processPoll(){
 						$('#message').html('Poll is been Successfully Queued.');
 						$("#poll-queue tr:has(td)").remove();
 						if(res.status == 0){
-							var s = "Not Active";
+							var s = "Standby";
 						}
 						else if(res.status == 1){
 							var s = "Active";
 						}
 						else{
 							var s = "Poll Expired";
-						}
-						$('#poll-queue').append("<tr><td>"+res.id+"<td>"+res.type+"</td><td>NOt SELECTED</td><td>"+res.start_date+"</td><td>"+res.start_time+"</td><td>"+res.end_date+"</td><td>"+res.end_time+"</td><td id='status'>"+s+"</td><td><button type='button' class='btn-remove' id='"+res.id+"'>Remove</button></td></tr>");					
+						}			
 						standby(res.id,1);
 						break;
  				}

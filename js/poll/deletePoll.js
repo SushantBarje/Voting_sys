@@ -16,12 +16,11 @@ function processDelete(){
 				data : {data : data},
 				dataType : 'json',
 				success : function(res){
-					console.log(res);
-					if(res.error == 'none'){
-						var trow = '';
-						for(var i = 0; i < res.length;i++)
+					console.log(res.error);
+					if(res.error === 'none'){
 						$('#poll-queue').html('<tr><td colspan="9">NO POLL</td></tr>');
 						clearInterval(x);
+						$('#demo').html('');
 					}
 				},
 				error : function(){

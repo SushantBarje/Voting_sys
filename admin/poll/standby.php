@@ -1,18 +1,18 @@
 <?php 
 
-	require 'main.php';
+	require 'main2.php';
 
 	if($_SERVER['REQUEST_METHOD'] != "POST"){
 		die(json_encode(array('error' => 'server')));
 	}else{
-
 		$id = $_POST['data'];
-
-		$o = new Node;
+		
+		$o = new Node();
 		if($r = $o->retrivePoll($id)){
 			die(json_encode(array(
 				'error' => 'none',
 				'id' => $r->getPollId(),
+				'type' => $r->getPollType(),
 				'start_date' => $r->getStartDate(),
 				'start_time' => $r->getStartTime(),
 				'end_date' => $r->getEndDate(),

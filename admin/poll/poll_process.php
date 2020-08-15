@@ -1,7 +1,7 @@
 <?php 
 	session_start();
 
-	include_once "main.php";
+	include_once "main2.php";
 
 	if($_SERVER['REQUEST_METHOD'] != 'POST'){
 		die(json_encode(array('error' => 'server')));
@@ -59,15 +59,14 @@
 				$candidate[] = $p;
 			}
 
-			$o = new Node($poll_type,$start_date,$start_time,$end_date,$end_time,$candidate) or validate('error','already');
-
-
-			if($r = $o->checkPoll("retrive",0)){
-				if(!($c = $o->retriveCandidate(1))){
-					validate("error",'candidate');
-				}
-				die(json_encode(array('error' => 'none','status'=>$r->getPollStatus(),'id'=>$r->getPollId(),'type'=>$r->getPollType(),'start_date' => $r->getStartDate(), 'start_time' => $r->getStartTime(), 'end_date' => $r->getEndDate(), 'end_time'=> $r->getEndTime(),$c)));
+			$o = new Node($poll_type,$start_date,$start_time,$end_date,$end_time,$candidate);
+			if($g = $o->insertPoll() != true) validate('error',$g);
+			$id = $o->getPollLastId();
+			if(!($r = $o->retrivePoll($id))){
+				validate('error',$r);
 			}
+
+			die(json_encode(array('error' => 'none','status'=>$r->getPollStatus(),'id'=>$r->getPollId(),'type'=>$r->getPollType(),'start_date' => $r->getStartDate(), 'start_time' => $r->getStartTime(), 'end_date' => $r->getEndDate(), 'end_time'=> $r->getEndTime())));	
 		}
 	
  ?>

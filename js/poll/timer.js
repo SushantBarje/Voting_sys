@@ -1,3 +1,4 @@
+//This are the GLOBAL Variables
 
 var startdate;
 var enddate;
@@ -13,6 +14,9 @@ $(document).ready(function(){
 
 });
 
+
+//method for check if there in poll when the page loads.
+//This method will set all the Global variables.
 function check_poll(){
 
 	$.ajax({
@@ -32,11 +36,9 @@ function check_poll(){
 				case 'exists':
 					$('#message').html('');
 					break;
-
 				case 'connect':
 					$('#message').html('Connection ERROR');
 					break;
-
 				case 'none':
 					console.log("sssss"+res.status);
 					if(s == 0){
@@ -51,7 +53,6 @@ function check_poll(){
 						autoDelete(i,0);
 					}
 			}
-			
 		},
 		error : function(){
 			console.log('Ajax Error');
@@ -59,54 +60,71 @@ function check_poll(){
 	})
 }
 
+//This will kept poll in standby status.
+//This accept two variables 1st = id.
+//2nd = the mode;
+/*
+	1)when the page load.
+	if set == 1 it means the function call is from server so set my global variable.
+	else
+*/ 
 function standby(val,set){
 
 	if(set == 1){
-		console.log("set1");
-		$.ajax({
-			url : "admin/poll/standby.php",
-			type : "post",
-			data : {data : val},
-			dataType : "json",
-			success : function(res){
-				console.log(res.error);
-				startdate = res.start_date;
-				enddate = res.end_date;
-				starttime = res.start_time;
-				endtime = res.end_time;
-				i = res.id;
-				s = res.status;
-			},
-			error : function(){
-				console.log("Ajax Error");
-			}
-		});
+		console.log("set1");	
+		$.when(
+			$.ajax({
+				url : "admin/poll/standby.php",
+				type : "post",
+				data : {data : val},
+				dataType : "json",
+				success : function(res){
+					console.log("sushant");
+					console.log(res.start_date);
+					startdate = res.start_date;
+					enddate = res.end_date;
+					starttime = res.start_time;
+					endtime = res.end_time;
+					i = res.id;
+					s = res.status;
+					$('#poll-queue').append('<tr><th>Poll ID:</th><td id="pollid">'+res.id+'</td></tr><tr><th>Poll Type:</th><td id="ptype">'+res.type+'</td></tr><tr><th>Start Date:</th><td id="sdate">'+res.start_date+'</td></tr><tr><th>Start Time:</th><td id="stime">'+res.start_time+'</td></tr><tr><th>End Date:</th><td id="edate">'+res.end_date+'</td></tr><tr><th>End Time:</th><td id="endtime">'+res.end_time+'</td></tr><tr><th>Status</th><td id="status">'+s+'</td></tr><tr><th>Action</th><td id="action"><button type="button" class="btn-remove btn btn-danger btn-sm" id="'+res.id+'">Remove</button><button type="button" class="btn-edit btn btn-success btn-sm" id="'+res.id+'">Edit</button></td></tr><tr><th>Result</th><td id="result">--</td></tr>');		
+				},
+				error : function(){
+					console.log("Ajax Error");
+				}
+			})).then(timer);
+		
+	}else{
+		timer();
 	}
-
-	$('#status').html('Stand By');
-	var countDownDate = new Date(startdate+" "+starttime).getTime();
-	x = setInterval(function() {
-
-		var now = new Date().getTime();
-  
-		var distance = countDownDate - now;
-  
-		var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-		var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-		var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-		var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-		$('#demo').html(days + "d " + hours + "h "
-		+ minutes + "m " + seconds + "s ");
-  
-		if (distance < 0) {
-  			clearInterval(x);
- 			$('.result-btn').attr('disabled','disabled');
- 			$('#demo').html("");
- 			$('#status').html("Active");
- 			start(val,1);
-		}	
-	}, 1000);
+	function timer(){
+		$('#status').html('Stand By');
+		var countDownDate = new Date(startdate+" "+starttime).getTime();
+		x = setInterval(function() {
+	
+			var now = new Date().getTime();
+	  
+			var distance = countDownDate - now;
+	  
+			var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+			var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+			var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+	
+			$('#demo').html(days + "d " + hours + "h "
+			+ minutes + "m " + seconds + "s ");
+	  
+			if (distance < 0) {
+				clearInterval(x);
+				$('.result-btn').attr('disabled','disabled');
+				$('#demo').html("");
+				$('#status').html("Active");
+				$('.btn-edit').remove()
+				start(val,1);
+			}	
+		}, 1000);
+	}
+	
 	console.log('standby');
 	return false;
 }
@@ -116,51 +134,55 @@ function start(val,set){
 	console.log(val);
 	if(set == 1){
 		console.log("Set2");
-		$.ajax({
-			url : "admin/poll/start.php",
-			data : {data : val},
-			type : "post",
-			dataType : "json",
-			success : function(res){
-				console.log(res.error);
-				enddate = res.end_date;
-				endtime = res.end_time;
-				i = res.id;
-				s = res.status;
-			},
-			error : function(res){
-				console.log("Ajax error");
-			}
-		});
+		$.when(
+			$.ajax({
+				url : "admin/poll/start.php",
+				data : {data : val},
+				type : "post",
+				dataType : "json",
+				success : function(res){
+					console.log(res.error);
+					enddate = res.end_date;
+					endtime = res.end_time;
+					i = res.id;
+					s = res.status;
+				},
+				error : function(res){
+					console.log("Ajax error");
+				}
+			})
+		).then(timer);
+	}else{
+		timer();
 	}
 	
-	var countDownDate = new Date(enddate+" "+endtime).getTime();
-	x = setInterval(function() {
-
-		var now = new Date().getTime();
-  
-		var distance = countDownDate - now;
-  
-		var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-		var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-		var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-		var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-		$('#demo').html(days + "d " + hours + "h "
-		+ minutes + "m " + seconds + "s ");
-  
-		if (distance < 0) {
-  			clearInterval(x);
- 			$('.result-btn').attr('disabled','disabled');
- 			$('#demo').html("");
- 			$('#status').html("Poll Expired");
- 			stop(val,1);
-		}
-	}, 1000);
-
+	function timer(){
+		var countDownDate = new Date(enddate+" "+endtime).getTime();
+		x = setInterval(function() {
 	
+			var now = new Date().getTime();
+	  
+			var distance = countDownDate - now;
+	  
+			var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+			var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+			var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+	
+			$('#demo').html(days + "d " + hours + "h "
+			+ minutes + "m " + seconds + "s ");
+	  
+			if (distance < 0) {
+				  clearInterval(x);
+				 $('.result-btn').attr('disabled','disabled');
+				 $('#demo').html("");
+				 $('#status').html("Poll Expired");
+				 $('#result').html('<button type="button" id="'+i+'" class="result-btn btn btn-success btn-sm">Result</button>')
+				 stop(val,1);
+			}
+		}, 1000);
+	}
 	console.log('start');
-
 	return false;
 }
 
@@ -172,48 +194,50 @@ function stop(val,set){
 
 	if(set == 1){
 		console.log("Set2");
-		$.ajax({
-			url : "admin/poll/stop.php",
-			data : {data : val},
-			type : "post",
-			dataType : "json",
-			success : function(res){
-				enddate = res.end_date;
-				endtime = res.end_time;
-				i = res.id;
-				s = res.status;
-				$('#status').html('Poll Expired');
-			},
-			error : function(res){
-				console.log("Ajax error");
-			}
-		});
+		$.when(
+			$.ajax({
+				url : "admin/poll/stop.php",
+				data : {data : val},
+				type : "post",
+				dataType : "json",
+				success : function(res){
+					enddate = res.end_date;
+					endtime = res.end_time;
+					i = res.id;
+					s = res.status;
+					$('#status').html('Poll Expired');
+				},
+				error : function(res){
+					console.log("Ajax error");
+				}
+			})
+		).then(timer);
+	}else{
+		timer();
 	}
-
-	var countDownDate = new Date(new Date(enddate+" "+endtime).getTime()+(60*60*1000));
+	function timer(){
+		var countDownDate = new Date(new Date(enddate+" "+endtime).getTime()+(60*60*1000));
+		x = setInterval(function(){
+			var now = new Date().getTime();
+			var distance = countDownDate - now;
+			var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+			var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+			var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+			var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 	
-	x = setInterval(function(){
-
-		var now = new Date().getTime();
-  
-		var distance = countDownDate - now;
-  
-		var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-		var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-		var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-		var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-		$('#demo').html(days + "d " + hours + "h "
-		+ minutes + "m " + seconds + "s ");
-  
-		if (distance < 0) {
-  			clearInterval(x);
- 			$('.result-btn').attr('disabled','disabled');
- 			$('#demo').html("");
- 			$('#status').html("Poll Expired");
- 			autoDelete(i,1);
-		}
-	}, 1000);
+			$('#demo').html(days + "d " + hours + "h "
+			+ minutes + "m " + seconds + "s ");
+	  
+			if (distance < 0) {
+				clearInterval(x);
+				$('.result-btn').attr('disabled','disabled');
+				$('#demo').html("");
+				$('#status').html("Poll Expired");
+				autoDelete(i,1);
+			}
+		}, 1000);
+	}
+	
 
 	return false;
 }

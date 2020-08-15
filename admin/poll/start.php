@@ -1,5 +1,5 @@
 <?php 
-	require 'main.php';
+	require 'main2.php';
 	$con = connect();
 	if($_SERVER['REQUEST_METHOD'] != "POST"){
 		die(json_encode(array('error' => 'server')));
@@ -7,11 +7,11 @@
 
 		$id = $_POST['data'];
 
-		$o = new Node;
+		$o = new Node();
 
-		if($o->checkPoll("check",1) === false){
+		/*if($o->checkPoll("check",1) === false){
 			die(json_encode(array('error','already_update')));
-		}
+		}*/
 
 		if($r = $o->retrivePoll($id)){
 			date_default_timezone_set("Asia/Kolkata");

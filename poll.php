@@ -1,7 +1,6 @@
 <?php 
 
 	session_start();
-
 	$pollFlag = 0;
 	if(!isset($_SESSION['email'])){
 		header('Location: index.php');
@@ -11,9 +10,12 @@
  ?>
 
 <?php
-	include_once 'admin/poll/main.php';
+	
+	include_once 'admin/candidates/controller.php';
+	include_once 'admin/poll/main2.php';
 	$con = connect();
-	$node = new Node();
+	$nodeC = new NodeC;
+	$nodeP = new Node;
 ?>
  <!DOCTYPE html>
  <html>
@@ -120,24 +122,28 @@
 										<th>Party Name</th>
 									</thead>			
 									<tbody>
-										<?php 
-											$sql = "SELECT * FROM candidate";
-
-											$result = mysqli_query($con,$sql);
-											if(mysqli_num_rows($result) > 0){
-												while($row = mysqli_fetch_assoc($result)){
-													?><tr>
+										<?php
+											if($nodeC->setCandidates() === false) die('<tr><td colspan="5">No Candidates</td</tr>');
+											$candidates = $nodeC->getCandidates();
+											foreach($candidates as $candidate){
+												$data = $nodeC->retriveCandidate($candidate);
+												$id = $data->getCandidateId();
+												$name = $data->getName();
+												$party = $data->getParty();
+												$position = $data->getPosition();
+												echo '
+													<tr>
 														<td>
-														<label for="candidate"></label>
-														<input type="checkbox" name="candidate[]" class="candidate-select" <?php echo "id=".$row['candidate_id'] ?> value=<?php echo $row['candidate_id']; ?>></td>
-														<td><?php echo $row['candidate_id'] ?></td>
-														<td><?php echo $row['candidate_name'] ?></td>
-														<td><?php echo $row['position'] ?></td>
-														<td><?php echo $row['party_name'] ?></td>
+															<label for="candidate"></label>
+															<input type="checkbox" name="candidate[]" class="candidate-select" id='.$id.' value='.$id.'>
+														</td>
+														<td>'.$id.'</td>
+														<td>'.$name.'</td>
+														<td>'.$position.'</td>
+														<td>'.$party.'</td>
 													</tr>
-												<?php }
+												';
 											}
-											$result->free();
 										?>
 									</tbody>			
 								</table>
@@ -150,55 +156,75 @@
 					<div class="table-responsive">
 						<table class="table table-bordered table-hover table-sm" border="1" id="myTable">
 							<thead>
-								<th>Poll Id</th>
-								<th>Poll Type</th>
-								<th>Candidates</th>
-								<th>Start Date</th>
-								<th>Start Time</th>
-								<th>End Date</th>
-								<th>End Time</th>
-								<th>Status</th>
-								<th>Action</th>
-								<th>Result</th>
+								<th colspan="2">Poll Active</th>
 							</thead>
 							<tbody id="poll-queue">
-								<?php 
-
-									$sql = "SELECT * FROM poll";
-
-									$result = mysqli_query($con,$sql);
-									if(!(mysqli_num_rows($result) > 0))
-									{	
-										echo "<tr><td colspan='9'>NO POLL</td></tr>";
-									}else{
-										while($row = mysqli_fetch_assoc($result)){
-											echo "<tr>
-												<td id='data-id'>".$row['id']."</td>
-												<td>".$row['poll_type']."</td>
-												<td>Not selected</td>
-												<td>".$row['start_date']."</td>
-												<td>".$row['start_time']."</td>
-												<td>".$row['end_date']."</td>
-												<td>".$row['end_time']."</td>";
-											if($row['status'] == 0){
-												echo "<td id='status'>Not Active</td>";
-												echo '<td><button type="button" class="btn-remove btn btn-danger btn-sm" id="'.$row['id'].'">Remove</button></td>';
-												echo "<td></td>";
-											}
-											if($row['status'] == 1){
-												echo "<td id='status'>Active</td>";
-												echo '<td><button type="button" class="btn-remove btn btn-danger btn-sm" id="'.$row['id'].'">Remove</button></td>';
-												echo "<td></td>";
-											}
-											if($row['status'] == 2){
-												echo "<td id='status'>Poll Expired</td>";
-												echo '<td><button type="button" class="btn-remove btn btn-danger btn-sm" id="'.$row['id'].'">Remove</button></td>';
-												echo "<td><a href='poll_result".$row['id']."'><button type='button' id=".$row['id']." class='result-btn btn btn-success btn-sm'>Result</button></a></td>
-												</tr>";
-											}
-										}
+								<?php
+									if($nodeP->setPoll() === false) die('<tr><td>No Poll</td></tr>');
+									$polls = $nodeP->getPoll();
+									foreach($polls as $poll){
+										$data = $nodeP->retrivePoll($poll);
+										$pollid = $data->getPollId();
+										$ptype = $data->getPollType();
+										$startdate = $data->getStartDate();
+										$starttime = $data->getStartTime();
+										$enddate = $data->getEndDate();
+										$endtime = $data->getEndtime();
+										$status = $data->getPollStatus();
+										echo '
+												<tr>
+													<th>Poll ID:</th>
+													<td id="pollid">'.$pollid.'</td>
+												</tr>
+												<tr>
+													<th>Poll Type:</th>
+													<td id="ptype">'.$ptype.'</td>
+												</tr>
+												<tr>
+													<th>Start Date:</th>
+													<td id="sdate">'.$startdate.'</td>
+												</tr>
+												<tr>
+													<th>Start Time:</th>
+													<td id="stime">'.$starttime.'</td>
+												</tr>
+												<tr>
+													<th>End Date:</th>
+													<td id="edate">'.$enddate.'</td>
+												</tr>
+												<tr>
+													<th>End Time:</th>
+													<td id="endtime">'.$endtime.'</td>
+												</tr>
+												<tr>
+													<th>Status:</th>';
+										echo '		<td id="status">';
+													if($status == 0) echo 'Standby';
+													else if($status == 1) echo 'Active';
+													else if($status == 2) echo 'Expired';
+										echo '		</td>
+												</tr>';			
+										echo '
+												</tr>
+												<tr>
+													<th>Action</th>
+													<td id="action">';
+														if($status == 0){
+															echo '<button type="button" class="btn-remove btn btn-danger btn-sm" id="'.$pollid.'">Remove</button>';
+															echo '<button type="button" class="btn-remove btn btn-success btn-sm" id="'.$pollid.'">Edit</button>';
+														}else if($status == 1 || $status == 2){
+															echo '<button type="button" class="btn-remove btn btn-danger btn-sm" id="'.$pollid.'">Remove</button>';
+														}
+										echo '		</td>
+												<tr>';
+										echo '  <tr>
+													<th>Result</th>
+													<td id="result">';
+														if($status == 2) echo'<button type="button" id="'.$pollid.'" class="result-btn btn btn-success btn-sm">Result</button>';
+														else echo'--';
+										echo '		</td>
+												</tr>';
 									}
-									mysqli_close($con);
 								?>
 							</tbody>
 						</table>

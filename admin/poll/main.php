@@ -1,6 +1,6 @@
 <?php 
 	
-include "define.php";
+include_once "define.php";
 
 class Node {
 
@@ -34,6 +34,10 @@ class Node {
 			echo false;
 		}
 	}
+
+	public function validate($e,$t){
+        return array($e => $t);
+    }
 
 
 	function retrivePoll($id){
