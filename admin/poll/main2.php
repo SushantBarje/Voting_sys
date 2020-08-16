@@ -1,6 +1,8 @@
+
 <?php 
 	
 include_once "define.php";
+
 
 class Node{
 
@@ -45,6 +47,7 @@ class Node{
         else -> call insertPoll()
     */
     public function checkPoll(){
+        $con = connect();   
         $sql = "SELECT * FROM poll";
         $result = $con->query($sql);
         if($result->num_rows > 0){
@@ -155,7 +158,7 @@ class Node{
             return false;
         }else{
             $id = mysqli_real_escape_string($con,$id);
-            // $sql = "SELECT * FROM stands_for as a JOIN candidate as b ON a.candidate_id = b.candidate_id AND a.poll_id = ? JOIN poll as c ON a.poll_id = c.poll_id AND c.id = ? JOIN position as d ON d.position_id = b.position";
+            //$sql = "SELECT * FROM stands_for as a JOIN candidate as b ON a.candidate_id = b.candidate_id AND a.poll_id = ? JOIN poll as c ON a.poll_id = c.poll_id AND c.id = ? JOIN position as d ON d.position_id = b.position";
             $sql = "SELECT * FROM poll WHERE id = ?";
             if(!($stmt = $con->prepare($sql))){
                 echo "15;";
@@ -178,6 +181,8 @@ class Node{
                     $this->setEndTime($row['end_time']);
                     $this->setPollStatus($row['status']);
                 }
+            }else{
+                return false;
             }
 
             if($con->errno){
@@ -188,6 +193,116 @@ class Node{
         }          
         return false; 
     }
+
+    /* Delete the poll 
+        Before Deleting the poll it will call the function fileProcess().
+    */
+
+    public function deletePoll($id){
+        $con = connect();
+        $id = mysqli_real_escape_string($con,$id);
+        $sql  = "DELETE FROM poll WHERE id = ?";
+        $this->fileProcess($id);
+        if(!($stmt = $con->prepare($sql))){
+            echo "15;";
+        }else{
+            if(!$stmt->bind_param('s',$id)){
+                echo "16;";
+            }else{
+                if(!$stmt->execute()){
+                    return false;
+                }else{
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public function standfor($pollid){
+        $con = connect();
+        $sql = "SELECT * FROM stands_for as a JOIN candidate as b ON a.poll_id = $pollid";
+        $result = $con->query($sql);
+        $arrc = [];
+        if($result->num_rows > 0){
+            while($row = $result->fetch_assoc()){
+                $arrc[] = array(
+                    'c_id' => $row['candidate_id'],
+                    'c_name' => $row['candidate_name'],
+                    'party' => $row['party_name'],
+                    'position' => $row['position'],
+                    'count' => $row['count']
+                );
+            }
+            return array('candidate' => $arrc);
+        }else{
+            //echo "nopollfks";
+            return false;
+        }
+    }
+
+    /*
+		CREATE A FILE TO STORE THE EXPIRED RECORDS.... So as to keep the history in json file.
+	*/
+    public function fileProcess($id){
+        if(!($p = $this->retrivePoll($id))){
+            //echo "file:retrive:not_found";  
+        }
+        if(!($c = $this->standfor($id))){
+            //echo "file:candidate:not_found";
+        }else{
+            $arr = array(
+                'poll_id' => $p->getPollId(),
+                'poll_type' => $p->getPollType(),
+                'start_date' => $p->getStartDate(),
+                'start_time' => $p->getStartTime(),
+                'end_date' => $p->getEndDate(),
+                'end_time' => $p->getEndTime(),
+                'result' => $p, 
+            );
+
+            if(file_exists('../store/data.json')){
+                $is = NULL;
+                $current_data = file_get_contents('../store/data.json');
+                $array_data = json_decode($current_data,true);
+                if (trim($current_data) == false) {
+                    //echo "The file is empty too";
+                    $array_data[] = $arr;
+                    $final_data = json_encode($array_data,JSON_PRETTY_PRINT);
+                     if(file_put_contents('../store/data.json', $final_data))  
+                    {		  
+                         //echo "write"; 
+                    }else{
+                        //echo "notwrite";
+                    }
+                }else{
+                    foreach($array_data as $key) {
+                    if($key['poll_id'] == $arr['poll_id']){
+                       // echo "match";
+                        $is = 0;
+                        return true;
+                        break;
+                    }else{
+                        $is = 1;
+                    }
+                }
+            }
+                if($is == 1){
+                    $array_data[] = $arr;
+                    $final_data = json_encode($array_data,JSON_PRETTY_PRINT);
+                     if(file_put_contents('../store/data.json', $final_data))  
+                    {		  
+                        // echo "write"; 
+                         return true;
+                    }else{
+                        //echo "notwrite";
+                    }
+                }
+            }
+        }
+        return false;
+    }
+    
 
 /*
 -------------------------------------------------------------

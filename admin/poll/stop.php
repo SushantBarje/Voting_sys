@@ -21,10 +21,14 @@
 			if($r->getEndDate() === $startd){
 				$sql = "UPDATE poll SET status = 2 WHERE id = $id";
 				$result = $con->query($sql);
-
 				if(!$con->affected_rows){
 					die(json_encode(array('error'=>'went_worng')));
 				}else{
+					$pollid = $r->getPollId();
+					if(!($o->fileProcess($pollid))){
+						die(json_encode(array('error'=>'file')));
+					}
+
 					die(json_encode(array(
 						'error' => 'none',
 						'id' => $r->getPollId(),
@@ -34,7 +38,7 @@
 					)));
 				}
 			}else{
-				echo json_encode("omert");
+				//echo json_encode("omert");
 			}
 		}else{
 			die(json_encode(array('error' => 'no_record_start')));

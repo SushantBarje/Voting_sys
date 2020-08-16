@@ -10,18 +10,21 @@ var x;
 
 $(document).ready(function(){
 
-	check_poll();
+	var id = $('#myTable #pollid').html();
+	console.log(id);
+	check_poll(id);
 
 });
 
 
 //method for check if there in poll when the page loads.
 //This method will set all the Global variables.
-function check_poll(){
+function check_poll(id){
 
 	$.ajax({
 		url : 'admin/poll/checkPoll.php',
 		type : 'post',
+		data : {id : id},
 		dataType : 'json',
 		success : function(res){
 			console.log(res.error);
@@ -216,7 +219,7 @@ function stop(val,set){
 		timer();
 	}
 	function timer(){
-		var countDownDate = new Date(new Date(enddate+" "+endtime).getTime()+(60*60*1000));
+		var countDownDate = new Date(new Date(enddate+" "+endtime).getTime()+(1*60*1000));
 		x = setInterval(function(){
 			var now = new Date().getTime();
 			var distance = countDownDate - now;
@@ -245,20 +248,18 @@ function stop(val,set){
 function autoDelete(val,set){
 	console.log(val);
 	$.ajax({
-
 		url : "admin/poll/autoDelete.php",
 		type : "post",
 		data : {data : val},
 		dataType : 'json',
 		success : function(res){
 			console.log(res.error);
+			$('#poll-queue').remove();
+			$('#myTable').append('<tbody id="poll-queue"><tr><td>No Poll</td></tr></tbody>')
 		},
-
 		error : function(){
 			console.log('Ajax Error');
 		}
 
 	});
-
-	console.log("autodelete");
 }

@@ -9,7 +9,7 @@
 
 		$data = $_GET['data'];
 		
-		$sql = "DELETE FROM poll where id = $data;UPDATE candidate SET status = 0 WHERE status = 1";
+		$sql = "DELETE FROM stands_for WHERE poll_id = $data;DELETE FROM poll where id = $data;UPDATE candidate SET status = 0 WHERE status = 1;";
 		
 		$result = mysqli_multi_query($con,$sql);
 
@@ -18,7 +18,6 @@
 		}
 		else{
 			$o = new Node();
-			$r = $o->retrivePoll($data);
 			die(json_encode(array('error'=>'none')));
 		}
 	}

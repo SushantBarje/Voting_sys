@@ -1,6 +1,6 @@
 <?php 
 	session_start();
-	require "main.php";
+	require "main2.php";
 
 	$con = connect();
 
@@ -12,16 +12,16 @@
 
 		$o = new Node;
 		if($s = $o->retrivePoll($id)){
-			echo json_encode($s);
-			if($s->deletePoll()){
-				die(json_encode(array('error','none')));
+			//echo json_encode($s);
+			$pollid = $s->getPollId();
+			if($o->deletePoll($pollid)){
+				die(json_encode(array('error'=>'none')));
 			}else{
-				die(json_encode(array('error','not_delete')));
+				die(json_encode(array('error'=>'not_delete')));
 			}
 		}else{
-			die(json_encode(array('error','not_found')));
+			die(json_encode(array('error'=>'not_found')));
 		}
-		
 	}
 
  ?>

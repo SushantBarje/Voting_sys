@@ -113,7 +113,7 @@
 						</div>
 						<div class="form-group ml-0">
 							<div class="table-responsive">
-								<table class=" candidate-table table table-bordered table-hover table-sm" border="1" class="form-ele">
+								<table class="candidate-table table table-bordered table-hover table-sm" border="1" class="form-ele">
 									<thead>
 										<th>Select Candidate</th>
 										<th>Candidate ID</th>
