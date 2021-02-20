@@ -1,0 +1,14 @@
+.main h2{
+    margin-top: 40px;
+    font-size: 23px;
+}
+.container-fluid .header ul li:nth-child(6){
+    width: auto;
+}
+
+.container-fluid .header ul li:nth-child(6) a{
+    position: relative;
+    right:90px;
+}
+
+

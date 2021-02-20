@@ -136,6 +136,7 @@ class NodeC{
         }
     }
 
+
     /* Manages Position if already present Update it Else Insert into the Database.*/
     public function managePosition(){
 

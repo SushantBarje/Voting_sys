@@ -18,6 +18,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="css/css/layout.css">
 	<link rel="stylesheet" href="css/css/admin/adminlogin.css">
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 </head>
 <body>
 	<div class="container-fluid">
@@ -60,5 +61,6 @@
 			</form>
 		</div>
 	</div>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
 </body>
-</html>
+</html>	

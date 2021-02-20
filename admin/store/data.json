@@ -202,6 +202,78 @@
         "start_time": "19:43:00.00",
         "end_date": "2020-08-16",
         "end_time": "19:44:00.00",
+        "result": []
+    },
+    {
+        "poll_id": 388,
+        "poll_type": "12312",
+        "start_date": "2020-08-25",
+        "start_time": "15:23:00.00",
+        "end_date": "2020-08-25",
+        "end_time": "15:24:00.00",
+        "result": []
+    },
+    {
+        "poll_id": 389,
+        "poll_type": "sushant",
+        "start_date": "2020-09-06",
+        "start_time": "16:09:00.00",
+        "end_date": "2020-09-06",
+        "end_time": "16:11:00.00",
+        "result": []
+    },
+    {
+        "poll_id": 391,
+        "poll_type": "12312",
+        "start_date": "2020-09-11",
+        "start_time": "18:40:00.00",
+        "end_date": "2020-09-11",
+        "end_time": "18:42:00.00",
+        "result": []
+    },
+    {
+        "poll_id": 392,
+        "poll_type": "123123",
+        "start_date": "2020-09-11",
+        "start_time": "19:03:00.00",
+        "end_date": "2020-09-11",
+        "end_time": "19:06:00.00",
+        "result": []
+    },
+    {
+        "poll_id": 394,
+        "poll_type": "12312",
+        "start_date": "2020-09-11",
+        "start_time": "19:21:00.00",
+        "end_date": "2020-09-11",
+        "end_time": "19:30:00.00",
+        "result": []
+    },
+    {
+        "poll_id": 396,
+        "poll_type": "sushant",
+        "start_date": "2020-11-18",
+        "start_time": "10:14:00.00",
+        "end_date": "2020-11-18",
+        "end_time": "10:15:00.00",
+        "result": []
+    },
+    {
+        "poll_id": 397,
+        "poll_type": "sushant",
+        "start_date": "2021-02-01",
+        "start_time": "12:42:00.00",
+        "end_date": "2021-02-01",
+        "end_time": "12:43:00.00",
+        "result": []
+    },
+    {
+        "poll_id": 398,
+        "poll_type": "sushant",
+        "start_date": "2021-02-20",
+        "start_time": "21:46:00.00",
+        "end_date": "2021-02-20",
+        "end_time": "21:47:00.00",
         "result": {}
     }
 ]

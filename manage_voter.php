@@ -7,7 +7,11 @@
 	}else{
 		$email = $_SESSION['email'];
 	}
+ ?>
 
+ <?php
+	define('PROJECT_ROOT_PATH',__DIR__);
+	
  ?>
 
  <!DOCTYPE html>
@@ -34,7 +38,7 @@
 					<li>Poll
 						<ul>
 							<li><a href="poll.php">Start Poll</a></li>
-							<li><a href="#">Last Poll</a></li>
+							<li><a href="last_poll.php">Last Poll</a></li>
 						</ul>
 					</li>
 					<li><a href="manage_candidate.php">Manage Candidates</a></li>

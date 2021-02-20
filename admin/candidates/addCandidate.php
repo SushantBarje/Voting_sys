@@ -14,11 +14,11 @@
 
 		function validate($check,$type){	
 			die(json_encode(array($check=>$type)));
-			mysqli_close($con);
 		}
 
 		foreach($_POST as $p){
 			if(empty($p)){
+				mysqli_close($con);
 				validate('error','empty');
 			}else{
 				$isValidate = 1;

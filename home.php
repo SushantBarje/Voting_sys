@@ -23,6 +23,7 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 	<link rel="stylesheet" href="css/css/layout.css">
 	<link rel="stylesheet" href="css/css/admin/home.css">
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
 </head>
 <body>
 	<div class="container-fluid">
@@ -34,7 +35,7 @@
 					<li>Poll
 						<ul>
 							<li><a href="poll.php">Start Poll</a></li>
-							<li><a href="#">Last Poll</a></li>
+							<li><a href="last_poll.php">Last Poll</a></li>
 						</ul>
 					</li>
 					<li><a href="manage_candidate.php">Manage Candidates</a></li>
@@ -71,6 +72,8 @@
 			
 		</div>
 	</div>
+
+	<script src="bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
 

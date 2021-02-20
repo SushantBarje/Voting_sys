@@ -26,7 +26,7 @@
 				validate('error','SQL:2');
 			}
 			if(!(mysqli_stmt_bind_param($stmt,'s',$id))){
-				vaildate('error','SQL:3');
+				validate('error','SQL:3');
 			}
 			if(!mysqli_stmt_execute($stmt)){
 				validate('error','SQL:4');

@@ -43,7 +43,7 @@
 					<li>Poll
 						<ul>
 							<li><a href="poll.php">Start Poll</a></li>
-							<li><a href="#">Last Poll</a></li>
+							<li><a href="last_poll.php">Last Poll</a></li>
 						</ul>
 					</li>
 					<li><a href="manage_candidate.php">Manage Candidates</a></li>
@@ -181,6 +181,9 @@
 													<td id="ptype">'.$ptype.'</td>
 												</tr>
 												<tr>
+								
+												</tr>
+												<tr>
 													<th>Start Date:</th>
 													<td id="sdate">'.$startdate.'</td>
 												</tr>
@@ -224,8 +227,11 @@
 														else echo'--';
 										echo '		</td>
 												</tr>';
+										echo '	<tr id="timestatus"> 
+															
+												</tr>';
 									}
-								?>
+								?>	
 							</tbody>
 						</table>
 					</div>

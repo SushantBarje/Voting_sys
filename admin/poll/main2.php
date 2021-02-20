@@ -1,8 +1,6 @@
-
 <?php 
 	
 include_once "define.php";
-
 
 class Node{
 
@@ -16,6 +14,7 @@ class Node{
     private $lastid;
     private $nominee;
     private $candidate = array();
+    private $candidateinfo = array();
     private $polls = array();
 
     function __construct() {  
@@ -26,7 +25,6 @@ class Node{
         call_user_func_array(array($this,$f),$a); 
       }
     }
-
 
 	function __construct6($poll_type,$start_date,$start_time,$end_date,$end_time,$candidate){
 		$this->setPollType($poll_type);
@@ -221,9 +219,10 @@ class Node{
 
     public function standfor($pollid){
         $con = connect();
-        $sql = "SELECT * FROM stands_for as a JOIN candidate as b ON a.poll_id = $pollid";
+        $sql = "SELECT * FROM stands_for as a JOIN candidate as b ON a.poll_id = $pollid and a.candidate_id = b.candidate_id";
         $result = $con->query($sql);
         $arrc = [];
+         $i =0;
         if($result->num_rows > 0){
             while($row = $result->fetch_assoc()){
                 $arrc[] = array(
@@ -234,6 +233,7 @@ class Node{
                     'count' => $row['count']
                 );
             }
+            $this->setCandidateInfo($arrc);
             return array('candidate' => $arrc);
         }else{
             //echo "nopollfks";
@@ -243,7 +243,8 @@ class Node{
 
     /*
 		CREATE A FILE TO STORE THE EXPIRED RECORDS.... So as to keep the history in json file.
-	*/
+    */
+
     public function fileProcess($id){
         if(!($p = $this->retrivePoll($id))){
             //echo "file:retrive:not_found";  
@@ -302,6 +303,22 @@ class Node{
         }
         return false;
     }
+
+
+    public function retrivePollif(){
+        $con = connect();
+        $sql = "SELECT * FROM poll";
+        $result = $con->query($sql);
+        if($result->num_rows > 0){
+            while($row = $result->fetch_assoc()){
+                $this->poll_id = $row['id'];
+            }
+            return $this;
+        }else{
+            return false;
+        }
+        return false;
+    }
     
 
 /*
@@ -338,6 +355,12 @@ public function setCandidate(array $v = []){
 	foreach($v as $s){
 		$this->candidate[] = $s;
 	}
+}
+
+public function setCandidateInfo(array $v = []){
+    foreach($v as $s){
+        $this->candidateinfo[] = $s;
+    }
 }
 
 public function setPollLastId($v){
@@ -400,6 +423,10 @@ public function getCandidate(){
 	return $this->candidate;
 }
 
+public function getCandidateInfo(){
+    $this->candidateinfo;
+}
+
 public function getPollStatus(){
 	return $this->poll_status;
 }
@@ -416,5 +443,4 @@ public function getPoll(){
     return $this->polls;
 }
 }
-
 ?>

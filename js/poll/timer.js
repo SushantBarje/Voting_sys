@@ -7,13 +7,27 @@ var endtime;
 var s;
 var i;
 var x;
+var id;
 
 $(document).ready(function(){
 
-	var id = $('#myTable #pollid').html();
+	id = $('#myTable #pollid').html();
 	console.log(id);
-	check_poll(id);
-
+	
+	if(!id){
+		$.ajax({
+			url : 'admin/poll/stand_poll.php',
+			type : 'post',
+			dataType : 'json',
+			success : function(res){
+				console.log(res.id);
+				id = res.id;
+				check_poll(id);
+			}
+		});
+	}else{
+		check_poll(id);
+	}
 });
 
 
@@ -90,7 +104,7 @@ function standby(val,set){
 					endtime = res.end_time;
 					i = res.id;
 					s = res.status;
-					$('#poll-queue').append('<tr><th>Poll ID:</th><td id="pollid">'+res.id+'</td></tr><tr><th>Poll Type:</th><td id="ptype">'+res.type+'</td></tr><tr><th>Start Date:</th><td id="sdate">'+res.start_date+'</td></tr><tr><th>Start Time:</th><td id="stime">'+res.start_time+'</td></tr><tr><th>End Date:</th><td id="edate">'+res.end_date+'</td></tr><tr><th>End Time:</th><td id="endtime">'+res.end_time+'</td></tr><tr><th>Status</th><td id="status">'+s+'</td></tr><tr><th>Action</th><td id="action"><button type="button" class="btn-remove btn btn-danger btn-sm" id="'+res.id+'">Remove</button><button type="button" class="btn-edit btn btn-success btn-sm" id="'+res.id+'">Edit</button></td></tr><tr><th>Result</th><td id="result">--</td></tr>');		
+					$('#poll-queue').append('<tr><th>Poll ID:</th><td id="pollid">'+res.id+'</td></tr><tr><th>Poll Type:</th><td id="ptype">'+res.type+'</td></tr><tr><th>Start Date:</th><td id="sdate">'+res.start_date+'</td></tr><tr><th>Start Time:</th><td id="stime">'+res.start_time+'</td></tr><tr><th>End Date:</th><td id="edate">'+res.end_date+'</td></tr><tr><th>End Time:</th><td id="endtime">'+res.end_time+'</td></tr><tr><th>Status</th><td id="status">'+s+'</td></tr><tr><th>Action</th><td id="action"><button type="button" class="btn-remove btn btn-danger btn-sm" id="'+res.id+'">Remove</button><button type="button" class="btn-edit btn btn-success btn-sm" id="'+res.id+'">Edit</button></td></tr><tr><th>Result</th><td id="result">--</td></tr><tr id="timestatus"></tr>');
 				},
 				error : function(){
 					console.log("Ajax Error");
@@ -114,16 +128,20 @@ function standby(val,set){
 			var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 			var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 	
-			$('#demo').html(days + "d " + hours + "h "
-			+ minutes + "m " + seconds + "s ");
-	  
+			$('#timestatus').html("<td>Time Remaining: "+days + "d " + hours + "h "
+			+ minutes + "m " + seconds + "s </td>");
+			$('#vote-table').html("<td colspan='4'>Poll Starts in : "+days + "d " + hours + "h "
+			+ minutes + "m " + seconds + "s </td>");
+
 			if (distance < 0) {
 				clearInterval(x);
+				$('#timestatus td').html(' ');
 				$('.result-btn').attr('disabled','disabled');
 				$('#demo').html("");
 				$('#status').html("Active");
-				$('.btn-edit').remove()
+				$('.btn-edit').remove();
 				start(val,1);
+				listcan();
 			}	
 		}, 1000);
 	}
@@ -172,11 +190,14 @@ function start(val,set){
 			var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 			var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 	
-			$('#demo').html(days + "d " + hours + "h "
-			+ minutes + "m " + seconds + "s ");
+			$('#timestatus').html("<td>"+days + "d " + hours + "h "
+			+ minutes + "m " + seconds + "s </td>");
+			$('#vote-table').html("<td colspan='4'>Poll End in : "+days + "d " + hours + "h "
+			+ minutes + "m " + seconds + "s </td>");
 	  
 			if (distance < 0) {
-				  clearInterval(x);
+				clearInterval(x);
+				$('#timestatus td').html(' ');
 				 $('.result-btn').attr('disabled','disabled');
 				 $('#demo').html("");
 				 $('#status').html("Poll Expired");
@@ -209,6 +230,7 @@ function stop(val,set){
 					i = res.id;
 					s = res.status;
 					$('#status').html('Poll Expired');
+
 				},
 				error : function(res){
 					console.log("Ajax error");
@@ -228,11 +250,12 @@ function stop(val,set){
 			var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
 			var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 	
-			$('#demo').html(days + "d " + hours + "h "
-			+ minutes + "m " + seconds + "s ");
-	  
+			$('#timestatus').html("<td>"+days + "d " + hours + "h "
+			+ minutes + "m " + seconds + "s </td>");
+			$('#vote-table').html('');
 			if (distance < 0) {
 				clearInterval(x);
+				$('#timestatus td').html(' ');
 				$('.result-btn').attr('disabled','disabled');
 				$('#demo').html("");
 				$('#status').html("Poll Expired");
@@ -254,6 +277,7 @@ function autoDelete(val,set){
 		dataType : 'json',
 		success : function(res){
 			console.log(res.error);
+			$('#timestatus td').html(' ');
 			$('#poll-queue').remove();
 			$('#myTable').append('<tbody id="poll-queue"><tr><td>No Poll</td></tr></tbody>')
 		},

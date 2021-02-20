@@ -1,8 +1,7 @@
 <?php 
-
 	session_start();
-	if(isset($_SESSION['id'])){
-		header('Location: voter_home.php');
+	if(isset($_SESSION['voter_id'])){
+		header('Location:voter_home.php');
 	}
  ?>
 

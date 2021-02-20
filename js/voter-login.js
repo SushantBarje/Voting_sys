@@ -21,18 +21,17 @@ function processLogin(){
 			success : function(res){
 				console.log(res);
 				switch(res.error){
-						case 'empty':
-							$('#alert').css('visibility','visible');
-							$('.message').html('Please fill all Information');
-							
-							break;
-						case 'Invalid':
-							$('#alert').css('visibility','visible');
-							$('.message').empty();
-							$('.message').html('Invalid valid Voter ID or Password');
-							break;
-						case 'none':
-							window.location = "";
+					case 'empty':
+						$('#alert').css('visibility','visible');
+						$('.message').html('Please fill all Information');
+						break;
+					case 'Invalid':
+						$('#alert').css('visibility','visible');
+						$('.message').empty();
+						$('.message').html('Invalid valid Voter ID or Password');
+						break;
+					case 'none':
+						window.location = "";	
 				}
 			}
 		});
